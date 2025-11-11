@@ -288,7 +288,13 @@ export class MemStorage implements IStorage {
 
     achievementsData.forEach((data) => {
       const id = randomUUID();
-      this.achievements.set(id, { ...data, id });
+      const achievement: Achievement = {
+        ...data,
+        id,
+        organization: data.organization ?? null,
+        icon: data.icon ?? null,
+      };
+      this.achievements.set(id, achievement);
     });
   }
 

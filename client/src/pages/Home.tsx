@@ -6,6 +6,9 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/Navigation";
 import { AboutPanel } from "@/components/AboutPanel";
+import { EducationStack } from "@/components/EducationStack";
+import { CertificationStack } from "@/components/CertificationStack";
+import { AchievementStack } from "@/components/AchievementStack";
 import { useCursorGradient } from "@/hooks/use-cursor-gradient";
 import type { Project } from "@shared/schema";
 import avatarImage from "@assets/generated_images/Professional_portfolio_avatar_photo_7959ceeb.png";
@@ -120,48 +123,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Education Section - Placeholder for stackable cards (Task 4) */}
+      {/* Education Section */}
       <section id="education" className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
             data-testid="heading-education"
           >
             Education
           </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
+            <EducationStack />
+          </motion.div>
         </div>
       </section>
 
-      {/* Certifications Section - Placeholder for stackable cards (Task 4) */}
+      {/* Certifications Section */}
       <section id="certifications" className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
             data-testid="heading-certifications"
           >
             Certifications
           </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
+            <CertificationStack />
+          </motion.div>
         </div>
       </section>
 
-      {/* Achievements Section - Placeholder for stackable cards (Task 4) */}
+      {/* Achievements Section */}
       <section id="achievements" className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
+            className="text-3xl md:text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
             data-testid="heading-achievements"
           >
             Achievements
           </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
+            <AchievementStack />
+          </motion.div>
         </div>
       </section>
 
