@@ -23,6 +23,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/education", async (_req, res) => {
+    try {
+      const education = await storage.getEducation();
+      res.json(education);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch education" });
+    }
+  });
+
+  app.get("/api/certifications", async (_req, res) => {
+    try {
+      const certifications = await storage.getCertifications();
+      res.json(certifications);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch certifications" });
+    }
+  });
+
+  app.get("/api/achievements", async (_req, res) => {
+    try {
+      const achievements = await storage.getAchievements();
+      res.json(achievements);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch achievements" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
