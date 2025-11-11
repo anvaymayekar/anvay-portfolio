@@ -1,0 +1,70 @@
+I want you to generate a complete modern personal portfolio website in Next.js that looks like Apple's design language — soft pastel gradients, glassmorphism blur, subtle floating animations, and beautiful calligraphic typography.
+
+Here are the exact design and functional requirements:
+
+1. **Hero Section**
+   - Centered glass card with a soft pastel gradient background.
+   - Inside it, my name "Anvay Mayekar" should appear in a calligraphic font (like "Pinyon Script").
+   - Use a typewriter animation: first it types "Anvay Mayekar" in English, then backspaces it, and retypes it in Marathi ("अन्वय मायेकर").
+   - Add a blinking cursor effect.
+   - Beneath that, a small subtitle: “B.Tech (E&CS) — SAKEC, Mumbai • 3rd Semester | Robotics • IoT • Embedded Systems”.
+   - Add 2 glass-style buttons: “Projects” (anchor to #projects) and “Resume” (link to /Anvay_Mayekar_Resume.pdf).
+   - On the right, a circular photo avatar in glass frame.
+
+2. **Dark / Light Mode Toggle**
+   - Add a smooth animated toggle (use Framer Motion).
+   - Light mode: soft pastel gradient background.
+   - Dark mode: deep bluish gradient with glass depth.
+   - Use CSS variables and smooth transitions for background and text color changes.
+   - Toggle should remember last theme in localStorage.
+
+3. **Projects Section**
+   - As I scroll down, fade in project cards from bottom (Framer Motion).
+   - Each project card: glass box with project title, description, tech stack, and live/demo link.
+   - Fetch projects dynamically from Firebase Firestore (use placeholder code and dummy data for now — I’ll replace it with my own Firebase config).
+
+4. **Footer**
+   - Gradient line divider.
+   - My contact info: Email, GitHub, LinkedIn icons (use lucide-react icons).
+   - Keep layout soft and minimal, centered, with low opacity text.
+
+5. **Styling**
+   - Use Tailwind CSS + Framer Motion.
+   - Define CSS variables for gradient colors and glass transparency.
+   - Include smooth transitions for hover, scroll, and theme switching.
+   - Include responsive design: works perfectly on mobile and desktop.
+   - Use rounded corners (2xl), soft shadows, and consistent spacing.
+
+6. **Tech Stack**
+   - Next.js + TypeScript
+   - Tailwind CSS
+   - Framer Motion
+   - lucide-react icons
+   - Firebase SDK (Firestore placeholder config)
+   - No other libraries unless needed.
+
+7. **Structure**
+   - `/components/AnimatedName.tsx` — handles English→Marathi typewriter.
+   - `/components/ThemeToggle.tsx` — handles animated dark/light switch.
+   - `/components/ProjectCard.tsx` — handles project card design and animation.
+   - `/pages/index.tsx` — main page that includes Hero, Projects, and Footer.
+   - `/styles/globals.css` — defines glass + gradient + variable themes.
+
+Make sure:
+- The entire page feels like one continuous animation (parallax/float optional).
+- The transition between light/dark mode is visually stunning.
+- The typewriter uses a blinking cursor and works once in a smooth loop (English → Marathi → English).
+
+Finally, provide **all file contents** (in code blocks) so I can paste them directly into Replit’s web editor, and clearly label each file’s path like:
+📁 components/AnimatedName.tsx
+📁 components/ThemeToggle.tsx
+📁 components/ProjectCard.tsx
+📁 pages/index.tsx
+📁 styles/globals.css
+
+pgsql
+Copy code
+
+Also include any minor installation steps if needed (e.g., `npm install framer-motion lucide-react firebase`).
+
+Generate the entire setup in one go, ready to paste into my Replit Next.js project and run.
