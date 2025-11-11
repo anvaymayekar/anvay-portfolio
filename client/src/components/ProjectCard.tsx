@@ -22,9 +22,9 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       }}
       whileHover={{ y: -8 }}
       data-testid={`card-project-${project.id}`}
-      className="group relative rounded-2xl backdrop-blur-glass bg-white/40 dark:bg-white/5 border border-white/50 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+      className="group relative rounded-2xl glass overflow-hidden hover-elevate active-elevate-2"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-cyan-500/10 dark:from-purple-500/5 dark:via-pink-500/5 dark:to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-cyan-500/10 dark:from-purple-500/5 dark:via-pink-500/5 dark:to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <div className="relative p-8 space-y-4">
         <h3
@@ -46,7 +46,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             <Badge
               key={idx}
               variant="secondary"
-              className="backdrop-blur-sm bg-white/50 dark:bg-white/10 border-white/30 dark:border-white/20 text-xs font-medium"
+              className="glass-subtle text-xs font-medium"
               data-testid={`badge-tech-${tech.toLowerCase().replace(/\s+/g, '-')}`}
             >
               {tech}

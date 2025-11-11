@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatedName } from "@/components/AnimatedName";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
+import { useCursorGradient } from "@/hooks/use-cursor-gradient";
 import type { Project } from "@shared/schema";
 import avatarImage from "@assets/generated_images/Professional_portfolio_avatar_photo_7959ceeb.png";
 
@@ -11,18 +12,19 @@ export default function Home() {
   const { data: projects, isLoading } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
   });
+  
+  useCursorGradient();
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden cursor-gradient">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-200/50 via-purple-200/50 to-cyan-200/50 dark:from-purple-900/30 dark:via-blue-900/30 dark:to-cyan-900/30 transition-colors duration-700" />
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-full max-w-6xl mx-auto rounded-2xl backdrop-blur-glass bg-white/30 dark:bg-white/5 border border-white/50 dark:border-white/10 shadow-2xl p-8 md:p-12 lg:p-16"
+          className="relative w-full max-w-6xl mx-auto rounded-2xl glass-strong p-8 md:p-12 lg:p-16 hover-elevate"
           data-testid="hero-glass-card"
         >
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
@@ -78,7 +80,7 @@ export default function Home() {
               className="relative"
               data-testid="avatar-container"
             >
-              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full backdrop-blur-sm bg-white/30 dark:bg-white/10 border-4 border-white/50 dark:border-white/20 shadow-2xl overflow-hidden">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full glass-strong overflow-hidden">
                 <img
                   src={avatarImage}
                   alt="Anvay Mayekar"

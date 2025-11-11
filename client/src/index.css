@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Cursor Position Variables */
+:root {
+  --cursor-x: 50%;
+  --cursor-y: 50%;
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);
@@ -177,6 +183,14 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    transition: background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
+                color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  * {
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -289,5 +303,60 @@
   .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
+  }
+  
+  /* Enhanced Glassmorphism Utilities */
+  .glass {
+    @apply backdrop-blur-2xl bg-white/15 dark:bg-white/10 
+           border border-white/30 dark:border-white/20 
+           shadow-xl;
+  }
+  
+  .glass-strong {
+    @apply backdrop-blur-3xl bg-white/25 dark:bg-white/15 
+           border-2 border-white/40 dark:border-white/30 
+           shadow-2xl;
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  .glass-subtle {
+    @apply backdrop-blur-xl bg-white/10 dark:bg-white/5 
+           border border-white/20 dark:border-white/10 
+           shadow-lg;
+  }
+  
+  /* Cursor-responsive gradient background */
+  .cursor-gradient {
+    background: 
+      radial-gradient(
+        circle at var(--cursor-x) var(--cursor-y),
+        rgba(139, 92, 246, 0.15),
+        transparent 50%
+      ),
+      linear-gradient(135deg, 
+        hsl(320, 40%, 95%) 0%, 
+        hsl(280, 35%, 92%) 25%,
+        hsl(200, 40%, 90%) 75%,
+        hsl(240, 35%, 88%) 100%
+      );
+    transition: background 0.3s ease-out;
+  }
+  
+  .dark .cursor-gradient {
+    background: 
+      radial-gradient(
+        circle at var(--cursor-x) var(--cursor-y),
+        rgba(167, 139, 250, 0.2),
+        transparent 50%
+      ),
+      linear-gradient(135deg, 
+        hsl(235, 40%, 10%) 0%, 
+        hsl(260, 35%, 12%) 25%,
+        hsl(210, 40%, 8%) 75%,
+        hsl(240, 35%, 10%) 100%
+      );
+    transition: background 0.3s ease-out;
   }
 }
