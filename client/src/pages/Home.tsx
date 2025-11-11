@@ -1,0 +1,213 @@
+import { motion } from "framer-motion";
+import { Mail, Github, Linkedin, FileText } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { AnimatedName } from "@/components/AnimatedName";
+import { ProjectCard } from "@/components/ProjectCard";
+import { Button } from "@/components/ui/button";
+import type { Project } from "@shared/schema";
+import avatarImage from "@assets/generated_images/Professional_portfolio_avatar_photo_7959ceeb.png";
+
+export default function Home() {
+  const { data: projects, isLoading } = useQuery<Project[]>({
+    queryKey: ["/api/projects"],
+  });
+
+  return (
+    <div className="min-h-screen w-full overflow-x-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-200/50 via-purple-200/50 to-cyan-200/50 dark:from-purple-900/30 dark:via-blue-900/30 dark:to-cyan-900/30 transition-colors duration-700" />
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative w-full max-w-6xl mx-auto rounded-2xl backdrop-blur-glass bg-white/30 dark:bg-white/5 border border-white/50 dark:border-white/10 shadow-2xl p-8 md:p-12 lg:p-16"
+          data-testid="hero-glass-card"
+        >
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            {/* Left: Name and Info */}
+            <div className="flex-1 text-center md:text-left space-y-6">
+              <AnimatedName />
+              
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 1 }}
+                className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto md:mx-0"
+                data-testid="text-subtitle"
+              >
+                B.Tech (E&CS) — SAKEC, Mumbai • 3rd Semester | Robotics • IoT • Embedded Systems
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.3 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+              >
+                <Button
+                  asChild
+                  size="lg"
+                  variant="default"
+                  data-testid="button-projects"
+                >
+                  <a href="#projects">
+                    View Projects
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  data-testid="button-resume"
+                >
+                  <a href="/Anvay_Mayekar_Resume.pdf" target="_blank" rel="noopener noreferrer">
+                    <FileText className="w-4 h-4 mr-2" />
+                    Resume
+                  </a>
+                </Button>
+              </motion.div>
+            </div>
+
+            {/* Right: Avatar */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="relative"
+              data-testid="avatar-container"
+            >
+              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full backdrop-blur-sm bg-white/30 dark:bg-white/10 border-4 border-white/50 dark:border-white/20 shadow-2xl overflow-hidden">
+                <img
+                  src={avatarImage}
+                  alt="Anvay Mayekar"
+                  className="w-full h-full object-cover"
+                  data-testid="img-avatar"
+                />
+              </div>
+              <motion.div
+                animate={{
+                  scale: [1, 1.05, 1],
+                  rotate: [0, 5, -5, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 blur-xl"
+              />
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="relative py-20 px-6">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-100/30 via-purple-100/30 to-pink-100/30 dark:from-cyan-900/20 dark:via-purple-900/20 dark:to-pink-900/20 transition-colors duration-700" />
+        
+        <div className="relative max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-cyan-500 dark:from-purple-400 dark:via-pink-300 dark:to-cyan-300 mb-4">
+              Featured Projects
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Explore my work in robotics, IoT, and embedded systems
+            </p>
+          </motion.div>
+
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-testid="projects-loading">
+              {[1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl backdrop-blur-glass bg-white/40 dark:bg-white/5 border border-white/50 dark:border-white/10 shadow-lg h-64 animate-pulse"
+                />
+              ))}
+            </div>
+          ) : projects && projects.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-testid="projects-grid">
+              {projects.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+              data-testid="projects-empty"
+            >
+              <p className="text-xl text-muted-foreground">
+                Projects coming soon...
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative py-16 px-6">
+        <div className="absolute inset-0 bg-gradient-to-t from-purple-100/40 to-transparent dark:from-purple-900/20 dark:to-transparent transition-colors duration-700" />
+        
+        <div className="relative max-w-4xl mx-auto">
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/50 to-transparent mb-12" />
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center space-y-6"
+          >
+            <h3 className="text-2xl font-semibold text-foreground">
+              Let's Connect
+            </h3>
+            
+            <div className="flex justify-center gap-6">
+              <a
+                href="mailto:anvay.mayekar@example.com"
+                className="p-4 rounded-2xl backdrop-blur-sm bg-white/40 dark:bg-white/10 border border-white/50 dark:border-white/20 hover:scale-110 transition-transform duration-300 shadow-lg hover:shadow-xl"
+                aria-label="Email"
+                data-testid="link-email"
+              >
+                <Mail className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </a>
+              <a
+                href="https://github.com/anvaymayekar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-2xl backdrop-blur-sm bg-white/40 dark:bg-white/10 border border-white/50 dark:border-white/20 hover:scale-110 transition-transform duration-300 shadow-lg hover:shadow-xl"
+                aria-label="GitHub"
+                data-testid="link-github"
+              >
+                <Github className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </a>
+              <a
+                href="https://linkedin.com/in/anvaymayekar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 rounded-2xl backdrop-blur-sm bg-white/40 dark:bg-white/10 border border-white/50 dark:border-white/20 hover:scale-110 transition-transform duration-300 shadow-lg hover:shadow-xl"
+                aria-label="LinkedIn"
+                data-testid="link-linkedin"
+              >
+                <Linkedin className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </a>
+            </div>
+
+            <p className="text-sm text-muted-foreground/70">
+              © 2024 Anvay Mayekar. Built with passion and precision.
+            </p>
+          </motion.div>
+        </div>
+      </footer>
+    </div>
+  );
+}
