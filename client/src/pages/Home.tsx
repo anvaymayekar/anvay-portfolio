@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatedName } from "@/components/AnimatedName";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
+import { Navigation } from "@/components/Navigation";
+import { AboutPanel } from "@/components/AboutPanel";
 import { useCursorGradient } from "@/hooks/use-cursor-gradient";
 import type { Project } from "@shared/schema";
 import avatarImage from "@assets/generated_images/Professional_portfolio_avatar_photo_7959ceeb.png";
@@ -17,92 +19,150 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden cursor-gradient">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
-        
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-full max-w-6xl mx-auto rounded-2xl glass-strong p-8 md:p-12 lg:p-16 hover-elevate"
-          data-testid="hero-glass-card"
-        >
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            {/* Left: Name and Info */}
-            <div className="flex-1 text-center md:text-left space-y-6">
-              <AnimatedName />
-              
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto md:mx-0"
-                data-testid="text-subtitle"
-              >
-                B.Tech (E&CS) — SAKEC, Mumbai • 3rd Semester | Robotics • IoT • Embedded Systems
-              </motion.p>
+      {/* Navigation Menu - Upper Left */}
+      <div className="fixed top-6 left-6 z-50">
+        <Navigation />
+      </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.3 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
-              >
-                <Button
-                  asChild
-                  size="lg"
-                  variant="default"
-                  data-testid="button-projects"
-                >
-                  <a href="#projects">
-                    View Projects
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  data-testid="button-resume"
-                >
-                  <a href="/Anvay_Mayekar_Resume.pdf" target="_blank" rel="noopener noreferrer">
-                    <FileText className="w-4 h-4 mr-2" />
-                    Resume
-                  </a>
-                </Button>
-              </motion.div>
+      {/* Hero Section */}
+      <section id="hero" className="relative min-h-screen flex items-center justify-center px-6 py-20">
+        <div className="w-full max-w-5xl mx-auto space-y-8">
+          {/* Centered Name */}
+          <motion.div
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-center"
+            data-testid="hero-name-container"
+          >
+            <AnimatedName />
+            
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="text-sm md:text-base text-muted-foreground mt-4 max-w-2xl mx-auto"
+              data-testid="text-subtitle"
+            >
+              B.Tech (E&CS) — SAKEC, Mumbai • 3rd Semester | Robotics • IoT • Embedded Systems
+            </motion.p>
+          </motion.div>
+
+          {/* About and Avatar Section */}
+          <div id="about" className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {/* About Panel */}
+            <div>
+              <AboutPanel />
             </div>
 
-            {/* Right: Avatar */}
+            {/* Avatar */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="relative"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex items-center justify-center"
               data-testid="avatar-container"
             >
-              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full glass-strong overflow-hidden">
-                <img
-                  src={avatarImage}
-                  alt="Anvay Mayekar"
-                  className="w-full h-full object-cover"
-                  data-testid="img-avatar"
+              <div className="relative">
+                <div className="relative w-56 h-56 lg:w-64 lg:h-64 rounded-full glass-strong overflow-hidden">
+                  <img
+                    src={avatarImage}
+                    alt="Anvay Mayekar"
+                    className="w-full h-full object-cover"
+                    data-testid="img-avatar"
+                  />
+                </div>
+                <motion.div
+                  animate={{
+                    scale: [1, 1.05, 1],
+                    rotate: [0, 5, -5, 0],
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 blur-xl"
                 />
               </div>
-              <motion.div
-                animate={{
-                  scale: [1, 1.05, 1],
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 blur-xl"
-              />
             </motion.div>
           </div>
-        </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <Button
+              asChild
+              size="lg"
+              variant="default"
+              data-testid="button-projects"
+            >
+              <a href="#projects">
+                View Projects
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              data-testid="button-resume"
+            >
+              <a href="/Anvay_Mayekar_Resume.pdf" target="_blank" rel="noopener noreferrer">
+                <FileText className="w-4 h-4 mr-2" />
+                Resume
+              </a>
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Education Section - Placeholder for stackable cards (Task 4) */}
+      <section id="education" className="relative py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
+            data-testid="heading-education"
+          >
+            Education
+          </motion.h2>
+        </div>
+      </section>
+
+      {/* Certifications Section - Placeholder for stackable cards (Task 4) */}
+      <section id="certifications" className="relative py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
+            data-testid="heading-certifications"
+          >
+            Certifications
+          </motion.h2>
+        </div>
+      </section>
+
+      {/* Achievements Section - Placeholder for stackable cards (Task 4) */}
+      <section id="achievements" className="relative py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
+            data-testid="heading-achievements"
+          >
+            Achievements
+          </motion.h2>
+        </div>
       </section>
 
       {/* Projects Section */}
