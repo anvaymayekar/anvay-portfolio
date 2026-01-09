@@ -420,7 +420,7 @@ export class MemStorage implements IStorage {
             },
             {
                 role: "Summer Internship",
-                company: "AICTE IDEALab under Prof. Santosh Kambli",
+                company: "AICTE IDEALab under Prof. Santosh Kamble",
                 location: "Mumbai, India",
                 duration: "16 Jun – 16 Aug '25",
                 current: "false",
