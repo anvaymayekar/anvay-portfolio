@@ -81,8 +81,8 @@ export function ProjectModal({
     const [isHovered, setIsHovered] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [touchStart, setTouchStart] = useState<number | null>(null);
-    const [touchEnd, setTouchEnd] = useState<number | null>(null);
+    const touchStartY = useRef<number>(0);
+    const [pullDistance, setPullDistance] = useState(0);
 
     const images = project?.images || [];
     const displayImages = images.slice(0, 3);
@@ -96,8 +96,8 @@ export function ProjectModal({
             setCurrentImageIndex(0);
             setIsHovered(false);
             setScrollProgress(0);
-            setTouchStart(null);
-            setTouchEnd(null);
+            touchStartY.current = 0;
+            setPullDistance(0);
         }
     }, [open]);
 
@@ -144,103 +144,54 @@ export function ProjectModal({
         };
     }, [open]);
 
-    // Swipe to close handler for mobile portrait
-    useEffect(() => {
-        if (!open) return;
-
-        const handleTouchStart = (e: TouchEvent) => {
-            // Only for mobile portrait
-            if (
-                window.innerWidth >= 768 ||
-                !window.matchMedia("(orientation: portrait)").matches
-            )
-                return;
-
-            const scrollContainer = scrollContainerRef.current;
-            if (!scrollContainer) return;
-
-            // Only trigger swipe-to-close if user is at the top of the scroll
-            if (scrollContainer.scrollTop <= 10) {
-                setTouchStart(e.touches[0].clientY);
-                setTouchEnd(null);
-            }
-        };
-
-        const handleTouchMove = (e: TouchEvent) => {
-            if (
-                window.innerWidth >= 768 ||
-                !window.matchMedia("(orientation: portrait)").matches
-            )
-                return;
-            if (touchStart === null) return;
-
-            const scrollContainer = scrollContainerRef.current;
-            if (!scrollContainer) return;
-
-            const currentY = e.touches[0].clientY;
-            setTouchEnd(currentY);
-
-            // If swiping down and at top, prevent scroll to make gesture feel better
-            if (currentY > touchStart && scrollContainer.scrollTop <= 10) {
-                e.preventDefault();
-            }
-        };
-
-        const handleTouchEnd = () => {
-            if (
-                window.innerWidth >= 768 ||
-                !window.matchMedia("(orientation: portrait)").matches
-            ) {
-                setTouchStart(null);
-                setTouchEnd(null);
-                return;
-            }
-
-            if (touchStart === null || touchEnd === null) {
-                setTouchStart(null);
-                setTouchEnd(null);
-                return;
-            }
-
-            const distance = touchEnd - touchStart;
-            const minSwipeDistance = 80; // Minimum distance for a swipe
-
-            // Swipe down detected
-            if (distance > minSwipeDistance) {
-                onOpenChange(false);
-            }
-
-            setTouchStart(null);
-            setTouchEnd(null);
-        };
+    // Swipe to close handlers for mobile portrait
+    const handleTouchStart = (e: React.TouchEvent) => {
+        // Only for mobile portrait
+        if (window.innerWidth >= 768) return;
 
         const scrollContainer = scrollContainerRef.current;
-        if (scrollContainer) {
-            scrollContainer.addEventListener("touchstart", handleTouchStart, {
-                passive: true,
-            });
-            scrollContainer.addEventListener("touchmove", handleTouchMove, {
-                passive: false,
-            });
-            scrollContainer.addEventListener("touchend", handleTouchEnd, {
-                passive: true,
-            });
-        }
+        if (!scrollContainer) return;
 
-        return () => {
-            if (scrollContainer) {
-                scrollContainer.removeEventListener(
-                    "touchstart",
-                    handleTouchStart
-                );
-                scrollContainer.removeEventListener(
-                    "touchmove",
-                    handleTouchMove
-                );
-                scrollContainer.removeEventListener("touchend", handleTouchEnd);
+        // Only track if at top of scroll
+        if (scrollContainer.scrollTop <= 5) {
+            touchStartY.current = e.touches[0].clientY;
+        }
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        // Only for mobile portrait
+        if (window.innerWidth >= 768) return;
+
+        const scrollContainer = scrollContainerRef.current;
+        if (!scrollContainer || touchStartY.current === 0) return;
+
+        // Only if still at top
+        if (scrollContainer.scrollTop <= 5) {
+            const currentY = e.touches[0].clientY;
+            const distance = currentY - touchStartY.current;
+
+            // Only track downward swipes
+            if (distance > 0) {
+                setPullDistance(distance);
+                // Prevent scroll when pulling down
+                e.preventDefault();
             }
-        };
-    }, [open, touchStart, touchEnd, onOpenChange]);
+        } else {
+            touchStartY.current = 0;
+            setPullDistance(0);
+        }
+    };
+
+    const handleTouchEnd = () => {
+        // Only for mobile portrait
+        if (window.innerWidth >= 768) return;
+
+        if (pullDistance > 100) {
+            onOpenChange(false);
+        }
+        touchStartY.current = 0;
+        setPullDistance(0);
+    };
 
     if (!project) return null;
 
@@ -329,9 +280,7 @@ export function ProjectModal({
                         .details-section-mobile {
                             position: relative;
                             z-index: 10;
-                            /* Increased height for bigger glass box */
                             min-height: 75vh !important;
-                            /* Center it vertically */
                             margin-top: calc(100vh + 12vh) !important;
                             margin-left: 1rem !important;
                             margin-right: 1rem !important;
@@ -350,14 +299,6 @@ export function ProjectModal({
                         .scroll-spacer-bottom {
                             height: 12vh;
                             pointer-events: none;
-                        }
-
-                        /* Mobile close button positioning */
-                        .mobile-close-btn {
-                            position: absolute;
-                            top: 0.75rem;
-                            right: 0.75rem;
-                            z-index: 20;
                         }
                     }
 
@@ -391,14 +332,6 @@ export function ProjectModal({
                         .scroll-spacer-bottom {
                             display: none !important;
                         }
-
-                        /* Landscape close button */
-                        .mobile-close-btn {
-                            position: fixed;
-                            top: 1rem;
-                            right: 1rem;
-                            z-index: 50;
-                        }
                     }
                     
                     /* Desktop - disable parallax transforms */
@@ -419,9 +352,34 @@ export function ProjectModal({
                 `}</style>
 
                 <div
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
                     ref={scrollContainerRef}
                     className="flex flex-col md:grid md:grid-cols-2 gap-0 h-full responsive-dialog-content mobile-scroll-container"
+                    style={{
+                        transform:
+                            pullDistance > 0
+                                ? `translateY(${Math.min(
+                                      pullDistance * 0.4,
+                                      50
+                                  )}px)`
+                                : undefined,
+                        transition:
+                            pullDistance === 0
+                                ? "transform 0.3s ease-out"
+                                : undefined,
+                    }}
                 >
+                    {/* Mobile Close Button - Fixed position over image */}
+                    <button
+                        onClick={() => onOpenChange(false)}
+                        className="md:hidden fixed top-4 right-4 z-50 rounded-full p-2 mt-5 sm:mt-0 glass-subtle hover:glass transition-all duration-300 hover:rotate-90 pointer-events-auto"
+                        aria-label="Close"
+                    >
+                        <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                    </button>
+
                     {/* Spacer at top for mobile centering */}
                     <div className="scroll-spacer-top md:hidden"></div>
 
@@ -533,15 +491,6 @@ export function ProjectModal({
 
                     {/* Right/Bottom Side - Project Details */}
                     <div className="details-section-mobile relative flex flex-col md:h-full m-2 md:m-0 md:ml-4">
-                        {/* Mobile Close Button - Positioned relative to glass container */}
-                        <button
-                            onClick={() => onOpenChange(false)}
-                            className="md:hidden mobile-close-btn rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90"
-                            aria-label="Close"
-                        >
-                            <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
-                        </button>
-
                         {/* Top Glass Section - Metadata */}
                         <div className="z-0 glass-subtle rounded-t-2xl p-3 sm:p-4 md:p-5 lg:p-6 space-y-2 sm:space-y-3 md:space-y-4 shrink-0">
                             <div className="flex items-start justify-between gap-2 md:gap-3 pr-10 md:pr-0">
