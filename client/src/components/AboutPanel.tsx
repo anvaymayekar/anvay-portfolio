@@ -1,62 +1,99 @@
 import { motion } from "framer-motion";
-import { GraduationCap, MapPin, Calendar } from "lucide-react";
+import {
+    GraduationCap,
+    MapPin,
+    Calendar,
+    ChartNoAxesGantt,
+    ScrollText,
+} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import type { Education } from "@shared/schema";
 
+const ABOUT =
+    "I’m an engineering student specializing in Electronics and Computer Science, driven by curiosity and an enduring appetite to learn beyond the classroom. I explore robotics, embedded systems, IoT, computing, and mathematics, constantly seeking knowledge across disciplines, while building hardware–software solutions that are practical, impactful, and designed to solve real-world challenges.";
 export function AboutPanel() {
-  const { data: education, isLoading } = useQuery<Education[]>({
-    queryKey: ["/api/education"],
-  });
+    const { data: education, isLoading } = useQuery<Education[]>({
+        queryKey: ["/api/education"],
+    });
 
-  const currentEducation = education?.[0];
+    const currentEducation = education?.[0];
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.8 }}
-      className="glass rounded-2xl p-6 space-y-4"
-      data-testid="about-panel"
-    >
-      <h3 className="text-lg font-bold text-foreground flex items-center gap-2" data-testid="text-about-heading">
-        <GraduationCap className="w-5 h-5 text-primary" />
-        About
-      </h3>
-      
-      <p className="text-sm text-muted-foreground leading-relaxed" data-testid="text-about-bio">
-        Passionate B.Tech student specializing in Electronics & Computer Science with focus on 
-        Robotics, IoT, and Embedded Systems. Active in research and development of innovative 
-        hardware-software solutions.
-      </p>
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="glass rounded-2xl p-6 space-y-4"
+            data-testid="about-panel"
+        >
+            <h3
+                className="text-lg font-bold text-foreground flex items-center gap-2"
+                data-testid="text-about-heading"
+            >
+                <ChartNoAxesGantt className="w-5 h-5 text-primary self-center mr-1" />
+                About
+            </h3>
 
-      {!isLoading && currentEducation && (
-        <div className="pt-3 border-t border-white/20 dark:border-white/10 space-y-2" data-testid="education-details">
-          <div className="flex items-start gap-2 text-sm">
-            <GraduationCap className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-foreground" data-testid="text-current-degree">{currentEducation.degree}</p>
-              <p className="text-muted-foreground text-xs" data-testid="text-current-institution">{currentEducation.institution}</p>
+            <p
+                className="text-sm text-muted-foreground leading-7"
+                data-testid="text-about-bio"
+            >
+                {/* Passionate B.Tech student specializing in Electronics & Computer
+                Science with focus on Robotics, IoT, and Embedded Systems.
+                Active in research and development of innovative
+                hardware-software solutions. */}
+                {ABOUT}
+            </p>
+            {/* 
+            {!isLoading && currentEducation && (
+                <div
+                    className="pt-3 border-t border-white/20 dark:border-white/10 space-y-2"
+                    data-testid="education-details"
+                >
+                    <div className="flex items-start gap-2 text-sm">
+                        <GraduationCap className="w-4 h-4 text-primary mt-0.5 flex-shrink-0 self-center mr-2" />
+                        <div>
+                            <p
+                                className="font-semibold text-foreground"
+                                data-testid="text-current-degree"
+                            >
+                                {currentEducation.degree}
+                            </p>
+                            <p
+                                className="text-muted-foreground text-xs"
+                                data-testid="text-current-institution"
+                            >
+                                {currentEducation.institution}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2">
+                        <Calendar className="w-3 h-3" />
+                        <span data-testid="text-current-duration">
+                            {currentEducation.duration}
+                        </span>
+                    </div>
+
+                    {currentEducation.grade && (
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <ScrollText className="w-3 h-3" />
+
+                            <span
+                                className="text-primary font-semibold"
+                                data-testid="text-current-cgpa"
+                            >
+                                {currentEducation.grade}
+                            </span>
+                        </div>
+                    )}
+                </div>
+            )} */}
+
+            <div className="flex items-center gap-2 text-xs text-muted-foreground pt-1">
+                <MapPin className="w-3 h-3" />
+                <span data-testid="text-location">Mumbai, India</span>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Calendar className="w-3 h-3" />
-            <span data-testid="text-current-duration">{currentEducation.duration}</span>
-          </div>
-          
-          {currentEducation.grade && (
-            <div className="flex items-center gap-2 text-xs">
-              <span className="font-medium text-foreground">CGPA:</span>
-              <span className="text-primary font-semibold" data-testid="text-current-cgpa">{currentEducation.grade}</span>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2">
-        <MapPin className="w-3 h-3" />
-        <span data-testid="text-location">Mumbai, India</span>
-      </div>
-    </motion.div>
-  );
+        </motion.div>
+    );
 }
