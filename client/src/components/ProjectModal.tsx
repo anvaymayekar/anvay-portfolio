@@ -81,6 +81,8 @@ export function ProjectModal({
     const [isHovered, setIsHovered] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [touchStart, setTouchStart] = useState<number | null>(null);
+    const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
     const images = project?.images || [];
     const displayImages = images.slice(0, 3);
@@ -94,6 +96,8 @@ export function ProjectModal({
             setCurrentImageIndex(0);
             setIsHovered(false);
             setScrollProgress(0);
+            setTouchStart(null);
+            setTouchEnd(null);
         }
     }, [open]);
 
@@ -139,6 +143,93 @@ export function ProjectModal({
             }
         };
     }, [open]);
+
+    // Swipe to close handler for mobile portrait
+    useEffect(() => {
+        if (!open) return;
+
+        const isMobilePortrait = () => {
+            return (
+                window.innerWidth < 768 &&
+                window.matchMedia("(orientation: portrait)").matches
+            );
+        };
+
+        const handleTouchStart = (e: TouchEvent) => {
+            if (!isMobilePortrait()) return;
+
+            const scrollContainer = scrollContainerRef.current;
+            if (!scrollContainer) return;
+
+            // Only trigger swipe-to-close if user is at the top of the scroll
+            if (scrollContainer.scrollTop <= 5) {
+                setTouchStart(e.touches[0].clientY);
+                setTouchEnd(null);
+            }
+        };
+
+        const handleTouchMove = (e: TouchEvent) => {
+            if (!isMobilePortrait() || touchStart === null) return;
+
+            const scrollContainer = scrollContainerRef.current;
+            if (!scrollContainer || scrollContainer.scrollTop > 5) {
+                setTouchStart(null);
+                return;
+            }
+
+            setTouchEnd(e.touches[0].clientY);
+        };
+
+        const handleTouchEnd = () => {
+            if (
+                !isMobilePortrait() ||
+                touchStart === null ||
+                touchEnd === null
+            ) {
+                setTouchStart(null);
+                setTouchEnd(null);
+                return;
+            }
+
+            const distance = touchEnd - touchStart;
+            const minSwipeDistance = 100;
+
+            // Swipe down detected
+            if (distance > minSwipeDistance) {
+                onOpenChange(false);
+            }
+
+            setTouchStart(null);
+            setTouchEnd(null);
+        };
+
+        const scrollContainer = scrollContainerRef.current;
+        if (scrollContainer) {
+            scrollContainer.addEventListener("touchstart", handleTouchStart, {
+                passive: true,
+            });
+            scrollContainer.addEventListener("touchmove", handleTouchMove, {
+                passive: true,
+            });
+            scrollContainer.addEventListener("touchend", handleTouchEnd, {
+                passive: true,
+            });
+        }
+
+        return () => {
+            if (scrollContainer) {
+                scrollContainer.removeEventListener(
+                    "touchstart",
+                    handleTouchStart
+                );
+                scrollContainer.removeEventListener(
+                    "touchmove",
+                    handleTouchMove
+                );
+                scrollContainer.removeEventListener("touchend", handleTouchEnd);
+            }
+        };
+    }, [open, touchStart, touchEnd, onOpenChange]);
 
     if (!project) return null;
 
