@@ -291,7 +291,7 @@ export default function Home() {
                             </a>
                         </div>
 
-                        <p className="text-sm text-muted-foreground/70">
+                        <p className="text-sm text-muted-foreground/70 px-3">
                             © 2025 Anvay Mayekar. Built with passion and
                             precision.
                         </p>

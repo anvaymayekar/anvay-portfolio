@@ -148,51 +148,62 @@ export function ProjectModal({
     useEffect(() => {
         if (!open) return;
 
-        const isMobilePortrait = () => {
-            return (
-                window.innerWidth < 768 &&
-                window.matchMedia("(orientation: portrait)").matches
-            );
-        };
-
         const handleTouchStart = (e: TouchEvent) => {
-            if (!isMobilePortrait()) return;
+            // Only for mobile portrait
+            if (
+                window.innerWidth >= 768 ||
+                !window.matchMedia("(orientation: portrait)").matches
+            )
+                return;
 
             const scrollContainer = scrollContainerRef.current;
             if (!scrollContainer) return;
 
             // Only trigger swipe-to-close if user is at the top of the scroll
-            if (scrollContainer.scrollTop <= 5) {
+            if (scrollContainer.scrollTop <= 10) {
                 setTouchStart(e.touches[0].clientY);
                 setTouchEnd(null);
             }
         };
 
         const handleTouchMove = (e: TouchEvent) => {
-            if (!isMobilePortrait() || touchStart === null) return;
+            if (
+                window.innerWidth >= 768 ||
+                !window.matchMedia("(orientation: portrait)").matches
+            )
+                return;
+            if (touchStart === null) return;
 
             const scrollContainer = scrollContainerRef.current;
-            if (!scrollContainer || scrollContainer.scrollTop > 5) {
-                setTouchStart(null);
-                return;
-            }
+            if (!scrollContainer) return;
 
-            setTouchEnd(e.touches[0].clientY);
+            const currentY = e.touches[0].clientY;
+            setTouchEnd(currentY);
+
+            // If swiping down and at top, prevent scroll to make gesture feel better
+            if (currentY > touchStart && scrollContainer.scrollTop <= 10) {
+                e.preventDefault();
+            }
         };
 
         const handleTouchEnd = () => {
             if (
-                !isMobilePortrait() ||
-                touchStart === null ||
-                touchEnd === null
+                window.innerWidth >= 768 ||
+                !window.matchMedia("(orientation: portrait)").matches
             ) {
                 setTouchStart(null);
                 setTouchEnd(null);
                 return;
             }
 
+            if (touchStart === null || touchEnd === null) {
+                setTouchStart(null);
+                setTouchEnd(null);
+                return;
+            }
+
             const distance = touchEnd - touchStart;
-            const minSwipeDistance = 100;
+            const minSwipeDistance = 80; // Minimum distance for a swipe
 
             // Swipe down detected
             if (distance > minSwipeDistance) {
@@ -209,7 +220,7 @@ export function ProjectModal({
                 passive: true,
             });
             scrollContainer.addEventListener("touchmove", handleTouchMove, {
-                passive: true,
+                passive: false,
             });
             scrollContainer.addEventListener("touchend", handleTouchEnd, {
                 passive: true,
