@@ -3,7 +3,6 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
     ExternalLink,
     Github,
-    FileText,
     Link,
     Building2,
     Calendar,
@@ -12,26 +11,14 @@ import {
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { OngoingBadge } from "./ProjectCard";
-// type Project = {
-//     id: string;
-//     title: string;
-//     description: string;
-//     fullDescription?: string;
-//     duration?: string;
-//     role?: string;
-//     images?: string[];
-//     highlights?: string[];
-//     demoLink?: string;
-//     liveLink?: string;
-//     paperLink?: string;
-// };
+
 type Project = {
     id: string;
     title: string;
     description: string;
-    fullDescription: string | null; // Changed from | undefined
-    role: string | null; // Changed from | undefined
-    duration: string | null; // Changed from | undefined
+    fullDescription: string | null;
+    role: string | null;
+    duration: string | null;
     highlights: string[] | null;
     size: string | null;
     images: string[] | null;
@@ -40,11 +27,13 @@ type Project = {
     liveLink: string | null;
     paperLink: string | null;
 };
+
 interface ProjectModalProps {
     project: Project | null;
     open: boolean;
     onOpenChange: (open: boolean) => void;
 }
+
 interface CircularLinkButtonProps {
     href: string;
     icon: any;
@@ -67,24 +56,15 @@ function CircularLinkButton({
             data-testid={testId}
             title={label}
         >
-            {/* Gradient Background (appears on hover) */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out">
                 <div className="absolute inset-0 education-gradient-main" />
                 <div className="absolute inset-0 education-gradient-glow" />
             </div>
-
-            {/* Glass background */}
             <div className="absolute inset-0" />
-
-            {/* Border */}
             <div className="absolute inset-0 rounded-full opacity-60 dark:education-card-border" />
-
-            {/* Icon - Fixed position */}
             <div className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 flex-shrink-0 z-10">
                 <Icon className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-slate-700 dark:text-slate-300 transition-colors duration-700 ease-out group-hover:text-white" />
             </div>
-
-            {/* Label - Animates in from right */}
             <span className="relative whitespace-nowrap text-xs sm:text-sm md:text-base font-medium text-slate-700 dark:text-slate-300 opacity-0 group-hover:opacity-100 group-hover:text-white overflow-hidden max-w-0 group-hover:max-w-[100px] transition-all duration-700 ease-out delay-100 z-10">
                 {label}
             </span>
@@ -102,7 +82,6 @@ export function ProjectModal({
     const [scrollProgress, setScrollProgress] = useState(0);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Declare all variables before any conditional returns
     const images = project?.images || [];
     const displayImages = images.slice(0, 3);
     const isOngoing =
@@ -118,7 +97,6 @@ export function ProjectModal({
         }
     }, [open]);
 
-    // Shuffle on hover only
     useEffect(() => {
         if (displayImages.length <= 1 || isHovered) return;
 
@@ -129,7 +107,6 @@ export function ProjectModal({
         return () => clearInterval(interval);
     }, [displayImages.length, isHovered]);
 
-    // Handle scroll for smooth image scaling - FIXED VERSION
     useEffect(() => {
         if (!open) return;
 
@@ -142,13 +119,10 @@ export function ProjectModal({
             setScrollProgress(progress);
         };
 
-        // Small delay to ensure DOM is ready
         const timer = setTimeout(() => {
             const scrollContainer = scrollContainerRef.current;
             if (scrollContainer) {
-                // Initial check
                 handleScroll();
-                // Add listener
                 scrollContainer.addEventListener("scroll", handleScroll, {
                     passive: true,
                 });
@@ -177,17 +151,16 @@ export function ProjectModal({
                 onInteractOutside={() => onOpenChange(false)}
                 onEscapeKeyDown={() => onOpenChange(false)}
             >
-                {/* Custom Close Button */}
+                {/* Custom Close Button - Desktop */}
                 <button
                     onClick={() => onOpenChange(false)}
-                    className="absolute right-4 top-4 z-50 rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90"
+                    className="hidden md:block absolute right-4 top-4 z-50 rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90"
                     aria-label="Close"
                 >
                     <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
                 </button>
 
                 <style>{`
-                    /* Small desktop screens (768 height and 1366 width or similar) */
                     @media (min-height: 700px) and (max-height: 800px) and (min-width: 1280px) and (max-width: 1400px) {
                         .responsive-dialog-content {
                             height: 85vh !important;
@@ -195,7 +168,6 @@ export function ProjectModal({
                         }
                     }
                     
-                    /* Portrait tablets (768x1366 and similar) */
                     @media (min-width: 768px) and (max-width: 1023px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
                         .responsive-dialog-content h2 { font-size: 0.95rem !important; line-height: 1.3 !important; }
                         .responsive-dialog-content .text-lg { font-size: 0.95rem !important; }
@@ -207,7 +179,6 @@ export function ProjectModal({
                         .responsive-dialog-content .button-container { padding: 0.5rem !important; }
                     }
                     
-                    /* Portrait monitors (1080x1920 and similar tall displays) */
                     @media (min-width: 1024px) and (min-aspect-ratio: 9/16) and (max-aspect-ratio: 10/16) {
                         .responsive-dialog-content {
                             max-height: 75vh !important;
@@ -220,7 +191,6 @@ export function ProjectModal({
                         .responsive-dialog-content .text-2xl { font-size: 1.875rem !important; }
                     }
                     
-                    /* Large landscape displays - increase card stacking */
                     @media (min-width: 1536px) {
                         .card-stack-enhanced .motion-card:nth-child(2) {
                             transform: translateX(70px) scale(0.90) !important;
@@ -230,8 +200,8 @@ export function ProjectModal({
                         }
                     }
                     
-                    /* Mobile vertical carousel scroll behavior */
-                    @media (max-width: 767px) {
+                    /* Mobile Portrait */
+                    @media (max-width: 767px) and (orientation: portrait) {
                         .mobile-scroll-container {
                             scroll-snap-type: y proximity;
                             scroll-behavior: smooth;
@@ -257,25 +227,75 @@ export function ProjectModal({
                         .details-section-mobile {
                             position: relative;
                             z-index: 10;
-                            min-height: calc(100vh - 12rem);
-                            margin-top: 100vh !important;
-                            margin-left: 1.8rem !important;
-                            margin-right: 1.8rem !important;
-                            margin-bottom: 6rem !important;
-                            padding-top: 2rem;
-                            padding-bottom: 2rem;
+                            /* Increased height for bigger glass box */
+                            min-height: 75vh !important;
+                            /* Center it vertically */
+                            margin-top: calc(100vh + 12vh) !important;
+                            margin-left: 1rem !important;
+                            margin-right: 1rem !important;
+                            margin-bottom: 12vh !important;
+                            padding-top: 0 !important;
+                            padding-bottom: 0 !important;
                             background: transparent;
                             scroll-snap-align: center;
                         }
                         
                         .scroll-spacer-top {
-                            height: 20vh;
+                            height: 12vh;
                             pointer-events: none;
                         }
                         
                         .scroll-spacer-bottom {
-                            height: 20vh;
+                            height: 12vh;
                             pointer-events: none;
+                        }
+
+                        /* Mobile close button positioning */
+                        .mobile-close-btn {
+                            position: absolute;
+                            top: 0.75rem;
+                            right: 0.75rem;
+                            z-index: 20;
+                        }
+                    }
+
+                    /* Mobile Landscape */
+                    @media (max-width: 767px) and (orientation: landscape) {
+                        .mobile-scroll-container {
+                            display: grid;
+                            grid-template-columns: 45% 55%;
+                            height: 100vh;
+                            overflow: hidden;
+                        }
+
+                        .image-section-mobile {
+                            position: relative !important;
+                            height: 100vh !important;
+                            transform: none !important;
+                            opacity: 1 !important;
+                            overflow: hidden;
+                            pointer-events: auto !important;
+                        }
+
+                        .details-section-mobile {
+                            position: relative !important;
+                            height: 100vh !important;
+                            margin: 0 !important;
+                            overflow-y: auto !important;
+                            padding: 1rem !important;
+                        }
+
+                        .scroll-spacer-top,
+                        .scroll-spacer-bottom {
+                            display: none !important;
+                        }
+
+                        /* Landscape close button */
+                        .mobile-close-btn {
+                            position: fixed;
+                            top: 1rem;
+                            right: 1rem;
+                            z-index: 50;
                         }
                     }
                     
@@ -287,7 +307,6 @@ export function ProjectModal({
                         }
                     }
                     
-                    /* Hide scrollbar but keep functionality */
                     .scrollable-content {
                         scrollbar-width: none;
                         -ms-overflow-style: none;
@@ -296,6 +315,7 @@ export function ProjectModal({
                         display: none;
                     }
                 `}</style>
+
                 <div
                     ref={scrollContainerRef}
                     className="flex flex-col md:grid md:grid-cols-2 gap-0 h-full responsive-dialog-content mobile-scroll-container"
@@ -303,7 +323,7 @@ export function ProjectModal({
                     {/* Spacer at top for mobile centering */}
                     <div className="scroll-spacer-top md:hidden"></div>
 
-                    {/* Left/Top Side - Stacked Images (NO GLASS, STANDALONE) */}
+                    {/* Left/Top Side - Stacked Images */}
                     <div
                         className="image-section-mobile relative p-4 sm:p-6 md:p-8 flex items-center justify-center md:h-full"
                         style={{
@@ -329,7 +349,6 @@ export function ProjectModal({
                                             displayImages.length;
                                         const isTop = position === 0;
                                         const isSecond = position === 1;
-                                        const isThird = position === 2;
 
                                         return (
                                             <motion.div
@@ -412,9 +431,18 @@ export function ProjectModal({
 
                     {/* Right/Bottom Side - Project Details */}
                     <div className="details-section-mobile relative flex flex-col md:h-full m-2 md:m-0 md:ml-4">
+                        {/* Mobile Close Button - Positioned relative to glass container */}
+                        <button
+                            onClick={() => onOpenChange(false)}
+                            className="md:hidden mobile-close-btn rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90"
+                            aria-label="Close"
+                        >
+                            <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                        </button>
+
                         {/* Top Glass Section - Metadata */}
                         <div className="z-0 glass-subtle rounded-t-2xl p-3 sm:p-4 md:p-5 lg:p-6 space-y-2 sm:space-y-3 md:space-y-4 shrink-0">
-                            <div className="flex items-start justify-between gap-2 md:gap-3">
+                            <div className="flex items-start justify-between gap-2 md:gap-3 pr-10 md:pr-0">
                                 <h2
                                     className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
                                     data-testid={`text-modal-title-${project.id}`}
@@ -423,7 +451,6 @@ export function ProjectModal({
                                 </h2>
                             </div>
 
-                            {/* Metadata */}
                             <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 text-[11px] sm:text-xs md:text-sm text-slate-700 dark:text-slate-300 font-medium">
                                 {project.duration && (
                                     <div
@@ -448,12 +475,9 @@ export function ProjectModal({
 
                         {/* Bottom Gradient Section - Description & Highlights */}
                         <div className="relative flex-1 overflow-hidden rounded-b-2xl flex flex-col">
-                            {/* Faint gradient background */}
                             <div className="absolute inset-0 bg-gradient-to-br from-purple-50/70 via-pink-50/80 to-cyan-50/85 dark:from-purple-950/25 dark:via-pink-950/20 dark:to-cyan-950/30 backdrop-blur-md" />
 
-                            {/* Scrollable Content */}
                             <div className="relative flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-3 sm:space-y-4 md:space-y-5 scrollable-content">
-                                {/* Description */}
                                 <p className="font-semibold text:xs sm:text-sm md:text-base">
                                     {project.description}
                                 </p>
@@ -463,7 +487,6 @@ export function ProjectModal({
                                     </p>
                                 </div>
 
-                                {/* Key Highlights */}
                                 {project.highlights &&
                                     project.highlights.length > 0 && (
                                         <div
@@ -492,13 +515,11 @@ export function ProjectModal({
                                             </ul>
                                         </div>
                                     )}
-                                {/* Spacer for fixed buttons if they exist */}
                                 {hasButtons && (
                                     <div className="h-14 sm:h-16 md:h-14 lg:h-16" />
                                 )}
                             </div>
 
-                            {/* Fixed Action Buttons - Only render if buttons exist */}
                             {hasButtons && (
                                 <div
                                     className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3 md:p-4 lg:p-6 pt-2 sm:pt-2.5 md:pt-3 lg:pt-4 bg-transparent button-container rounded-b-2xl backdrop-blur-sm"
@@ -538,7 +559,6 @@ export function ProjectModal({
                         </div>
                     </div>
 
-                    {/* Spacer at bottom for mobile centering */}
                     <div className="scroll-spacer-bottom md:hidden"></div>
                 </div>
             </DialogContent>

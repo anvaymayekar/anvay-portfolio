@@ -141,7 +141,7 @@ export default function Home() {
                     </motion.div>
                 </div>
             </section>
-            <section id="experience" className="relative py-20 px-6">
+            <section id="experience" className="relative pt-20 px-6">
                 <div className="max-w-4xl mx-auto">
                     <SectionHeading testId="heading-experience">
                         Experience
@@ -240,7 +240,10 @@ export default function Home() {
             </section>
 
             {/* Footer */}
-            <footer id="connect" className="relative py-16 px-6">
+            <footer
+                id="connect"
+                className="relative py-16 bg-gradient-to-t from-purple-100/40 to-transparent dark:from-purple-900/20 dark:to-transparent transition-colors duration-700"
+            >
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-100/40 to-transparent dark:from-purple-900/20 dark:to-transparent transition-colors duration-700" />
 
                 <div className="relative max-w-4xl mx-auto">
