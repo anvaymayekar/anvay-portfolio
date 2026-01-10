@@ -207,7 +207,7 @@ export function ProjectModal({
                 {/* Custom Close Button - Desktop */}
                 <button
                     onClick={() => onOpenChange(false)}
-                    className="hidden md:block absolute right-4 top-4 z-50 rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90"
+                    className="hidden md:block absolute right-4 top-4 z-50 rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90 outline-none"
                     aria-label="Close"
                 >
                     <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
@@ -374,7 +374,7 @@ export function ProjectModal({
                     {/* Mobile Close Button - Fixed position over image */}
                     <button
                         onClick={() => onOpenChange(false)}
-                        className="md:hidden fixed top-4 right-4 z-50 rounded-full p-2 mt-5 sm:mt-0 glass-subtle hover:glass transition-all duration-300 hover:rotate-90 pointer-events-auto"
+                        className="md:hidden fixed top-4 right-4 z-50 rounded-full p-2 mt-5 sm:mt-0 glass-subtle hover:glass transition-all duration-300 hover:rotate-90 pointer-events-auto outline-none"
                         aria-label="Close"
                     >
                         <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
