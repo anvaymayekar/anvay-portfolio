@@ -14,7 +14,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navigationItems = [
     { id: "hero", label: "Home", href: "#hero", icon: Home },
-    // { id: "about", label: "About", href: "#about", icon: User },
     {
         id: "education",
         label: "Education",
@@ -43,7 +42,8 @@ export function Navigation() {
     const [activeSection, setActiveSection] = useState("hero");
 
     const toggleNav = () => setIsOpen(!isOpen);
-
+    console.log("Hovered Index:", hoveredIndex);
+    console.log("Is Open:", isOpen);
     useEffect(() => {
         const handleScroll = () => {
             const sections = navigationItems.map((item) => ({
@@ -51,13 +51,27 @@ export function Navigation() {
                 element: document.getElementById(item.id),
             }));
 
-            const scrollPosition = window.scrollY + window.innerHeight / 3;
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+
+            // Check if we're at the bottom of the page
+            if (window.scrollY + windowHeight >= documentHeight - 50) {
+                setActiveSection("connect");
+                return;
+            }
 
             for (let i = sections.length - 1; i >= 0; i--) {
                 const section = sections[i];
                 if (section.element) {
                     const offsetTop = section.element.offsetTop;
-                    if (scrollPosition >= offsetTop) {
+                    const offsetBottom =
+                        offsetTop + section.element.offsetHeight;
+
+                    if (
+                        scrollPosition >= offsetTop &&
+                        scrollPosition < offsetBottom
+                    ) {
                         setActiveSection(section.id);
                         break;
                     }
@@ -92,6 +106,13 @@ export function Navigation() {
                     onClick={toggleNav}
                     className="relative w-12 h-12 rounded-xl flex items-center justify-center glass-subtle cursor-pointer"
                     whileHover={{ scale: 1.1 }}
+                    transition={{
+                        duration: 0.5,
+                        scale: {
+                            duration: 0.4,
+                            ease: [0.25, 0.46, 0.45, 0.94],
+                        },
+                    }}
                     whileTap={{ scale: 0.9 }}
                 >
                     <AnimatePresence mode="wait">
@@ -131,6 +152,7 @@ export function Navigation() {
                             {navigationItems.map((item, index) => {
                                 const Icon = item.icon;
                                 const isActive = activeSection === item.id;
+
                                 return (
                                     <motion.a
                                         key={item.id}
@@ -142,7 +164,7 @@ export function Navigation() {
                                         onMouseLeave={() =>
                                             setHoveredIndex(null)
                                         }
-                                        className={`relative w-14 h-14 rounded-2xl flex items-center justify-center cursor-pointer group overflow-hidden ${
+                                        className={`relative w-14 h-14 rounded-2xl flex items-center justify-center cursor-pointer group ${
                                             isActive ? "" : "glass"
                                         }`}
                                         initial={{ opacity: 0, x: -30 }}
@@ -151,18 +173,22 @@ export function Navigation() {
                                         transition={{ delay: index * 0.05 }}
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.9 }}
+                                        style={{
+                                            transition:
+                                                "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                                        }}
                                     >
                                         {/* Active gradient background layers (matching education card style) */}
                                         {isActive && (
                                             <>
                                                 {/* Main gradient */}
-                                                <div className="absolute inset-0 bg-gradient-to-br from-violet-500 via-purple-500 to-cyan-300 dark:from-violet-600 dark:via-purple-600 dark:to-cyan-400" />
+                                                <div className="absolute inset-0 bg-gradient-to-br from-violet-500 via-purple-500 to-cyan-300 dark:from-violet-600 dark:via-purple-600 dark:to-cyan-400 rounded-2xl" />
 
                                                 {/* Glow layer */}
                                                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/50 via-purple-500/50 to-cyan-300/50 dark:from-violet-600/50 dark:via-purple-600/50 dark:to-cyan-400/50 blur-2xl" />
 
                                                 {/* Dot pattern overlay */}
-                                                <div className="absolute inset-0 opacity-10">
+                                                <div className="absolute inset-0 opacity-10 rounded-2xl">
                                                     <div
                                                         className="absolute inset-0"
                                                         style={{
@@ -185,22 +211,30 @@ export function Navigation() {
                                         />
 
                                         {/* Tooltip */}
+
                                         <AnimatePresence>
                                             {hoveredIndex === index && (
                                                 <motion.div
                                                     initial={{
                                                         opacity: 0,
                                                         x: -10,
+                                                        scale: 0.9,
                                                     }}
                                                     animate={{
                                                         opacity: 1,
                                                         x: 0,
+                                                        scale: 1,
                                                     }}
                                                     exit={{
                                                         opacity: 0,
                                                         x: -10,
+                                                        scale: 0.9,
                                                     }}
-                                                    className="absolute left-full ml-4 px-4 py-2 rounded-xl glass-subtle whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-100"
+                                                    transition={{
+                                                        duration: 0.2,
+                                                        ease: "easeOut",
+                                                    }}
+                                                    className="absolute left-full ml-4 px-4 py-2 rounded-xl glass-subtle whitespace-nowrap text-sm font-medium text-gray-700 dark:text-gray-100 shadow-lg pointer-events-none z-[9999]"
                                                 >
                                                     {item.label}
                                                 </motion.div>
