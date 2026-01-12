@@ -557,7 +557,7 @@ export function ProjectModal({
 
                         {/* Bottom Gradient Section - Description & Highlights */}
                         <div className="relative flex-1 overflow-hidden rounded-b-2xl flex flex-col">
-                            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/70 via-pink-50/80 to-cyan-50/85 dark:from-purple-950/25 dark:via-pink-950/20 dark:to-cyan-950/30 backdrop-blur-md" />
+                            <div className="absolute inset-0 rounded-b-2xl bg-gradient-to-br from-purple-50/70 via-pink-50/80 to-cyan-50/85 dark:from-purple-950/25 dark:via-pink-950/20 dark:to-cyan-950/30 backdrop-blur-md" />
 
                             <div className="relative flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 lg:p-6 space-y-3 sm:space-y-4 md:space-y-5 scrollable-content">
                                 <p className="font-semibold text:xs sm:text-sm md:text-base">
