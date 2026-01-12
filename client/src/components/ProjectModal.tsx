@@ -199,30 +199,49 @@ export function ProjectModal({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 hideCloseButton
-                className="max-w-6xl h-[100vh] md:h-[85vh] lg:h-[85vh] xl:h-[80vh] p-0 bg-transparent border-none shadow-none overflow-hidden"
+                // h-[100vh] md:h-[85vh] lg:h-[85vh] xl:h-[80vh]
+                className="max-w-6xl p-0 bg-transparent border-none shadow-none overflow-hidden outline-none"
                 data-testid={`dialog-project-${project.id}`}
                 onInteractOutside={() => onOpenChange(false)}
                 onEscapeKeyDown={() => onOpenChange(false)}
             >
                 {/* Custom Close Button - Desktop */}
-                <button
+                {/* <button
                     onClick={() => onOpenChange(false)}
-                    className="hidden md:block absolute right-4 top-4 z-50 rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90 outline-none"
+                    className="hidden md:block absolute right-4 top-4 z-[60] rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90 outline-none"
+                    style={{ transform: "scale(1.087)" }}
                     aria-label="Close"
                 >
                     <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
-                </button>
-
+                </button> */}
                 <style>{`
-                    @media (min-height: 700px) and (max-height: 800px) and (min-width: 1280px) and (max-width: 1400px) {
-                        .responsive-dialog-content {
-                            height: 85vh !important;
-                            max-height: 85vh !important;
+                    /* Desktop scaling - accounts for browser chrome */
+                    .responsive-dialog-content {
+                        @media (min-width: 768px) {
+                            transform: scale(0.75);
+                            transform-origin: center;
                         }
                     }
-                    
-                    @media (min-width: 768px) and (max-width: 1023px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {
-                        .responsive-dialog-content h2 { font-size: 0.95rem !important; line-height: 1.3 !important; }
+
+                    @media (min-width: 768px) and (min-height: 900px) {
+                        .responsive-dialog-content {
+                            transform: scale(0.95);
+                        }
+                    }
+
+                    @media (min-width: 768px) and (min-height: 1200px) {
+                        .responsive-dialog-content {
+                            transform: scale(0.94);
+                        }
+                    }
+
+                    @media (min-height: 700px) and (max-height: 800px) and (min-width: 1280px) and (max-width: 1400px) {
+                        .responsive-dialog-content {
+                            transform: scale(0.90);
+                        }
+                    }
+
+                    @media (min-width: 768px) and (max-width: 1023px) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 4/3) {                        .responsive-dialog-content h2 { font-size: 0.95rem !important; line-height: 1.3 !important; }
                         .responsive-dialog-content .text-lg { font-size: 0.95rem !important; }
                         .responsive-dialog-content .text-xl { font-size: 1rem !important; }
                         .responsive-dialog-content .text-2xl { font-size: 1.125rem !important; }
@@ -398,7 +417,7 @@ export function ProjectModal({
                             setCurrentImageIndex(0);
                         }}
                     >
-                        <div className="relative w-full h-full flex items-center justify-center max-h-[calc(100%)] card-stack-enhanced mr-3">
+                        <div className="relative w-full h-full flex items-center justify-center max-h-[calc(100%)] card-stack-enhanced mr-4">
                             {displayImages.length > 0 ? (
                                 <AnimatePresence mode="popLayout">
                                     {displayImages.map((image, index) => {
@@ -461,7 +480,7 @@ export function ProjectModal({
                                                 data-testid={`modal-img-stack-${index}-${project.id}`}
                                             >
                                                 <div className="w-full h-full flex items-center justify-center p-2">
-                                                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/20 dark:border-white/10 max-w-[90%] max-h-[90%]">
+                                                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/20 dark:border-white/10 max-w-[90%] md:max-w-[95%] max-h-[90%] md:max-h-[95%]">
                                                         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-cyan-500/5 z-10 pointer-events-none" />
                                                         <img
                                                             src={image}
@@ -471,12 +490,18 @@ export function ProjectModal({
                                                             className="object-contain w-full h-full"
                                                             style={{
                                                                 maxHeight:
-                                                                    "65vh",
+                                                                    window.innerWidth >=
+                                                                    768
+                                                                        ? window.innerHeight <
+                                                                          900
+                                                                            ? "85vh"
+                                                                            : "80vh"
+                                                                        : "65vh",
                                                                 maxWidth:
                                                                     "100%",
                                                             }}
                                                             loading="lazy"
-                                                        />
+                                                        />{" "}
                                                     </div>
                                                 </div>
                                             </motion.div>
@@ -493,15 +518,21 @@ export function ProjectModal({
                     <div className="details-section-mobile relative flex flex-col md:h-full m-2 md:m-0 md:ml-4">
                         {/* Top Glass Section - Metadata */}
                         <div className="z-0 glass-subtle rounded-t-2xl p-3 sm:p-4 md:p-5 lg:p-6 space-y-2 sm:space-y-3 md:space-y-4 shrink-0">
-                            <div className="flex items-start justify-between gap-2 md:gap-3 pr-10 md:pr-0">
+                            <div className="flex items-center justify-between gap-2 md:gap-3">
                                 <h2
                                     className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 dark:from-purple-400 dark:to-cyan-400"
                                     data-testid={`text-modal-title-${project.id}`}
                                 >
                                     {project.title}
                                 </h2>
+                                <button
+                                    onClick={() => onOpenChange(false)}
+                                    className="hidden md:block rounded-full p-2 glass-subtle hover:glass transition-all duration-300 hover:rotate-90 outline-none shrink-0"
+                                    aria-label="Close"
+                                >
+                                    <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                                </button>
                             </div>
-
                             <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 text-[11px] sm:text-xs md:text-sm text-slate-700 dark:text-slate-300 font-medium">
                                 {project.duration && (
                                     <div
