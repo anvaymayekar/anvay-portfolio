@@ -452,69 +452,14 @@ export class MemStorage implements IStorage {
         // Seed Certifications
         const certificationsData: Array<Omit<Certification, "id">> = [
             {
-                title: "Hands On Mobile App Development using Flutter",
-                issuer: "SAKEC Robo Club",
-                date: "January 2025",
-                credentialId: "001",
+                title: "Apply AI: Analyze Customer Reviews",
+                issuer: "Cisco Networking Academy",
+                date: "Jan 2026",
+                credentialId: "008",
                 credentialUrl:
-                    "https://drive.google.com/file/d/1aStXNLBPJ2FgAFOIVIVHIDx0kX5cUMu8/view?usp=drive_link",
+                    "https://drive.google.com/file/d/1qp4cw9zuXfHDI4XzNbDB1cxBDmkGBHme/view?usp=drive_link",
                 description:
-                    "Demonstrated hands-on proficiency in dart programming language & Mobile App Development using Flutter.",
-                logo: null,
-            },
-            {
-                title: "HTML training",
-                issuer: "Spoken Tutorial, IIT-B",
-                date: "March 2025",
-                credentialId: "002",
-                credentialUrl:
-                    "https://drive.google.com/file/d/1KmorGzva0_VDh5L55Sss8jfAihSciwhD/view?usp=drive_link",
-                description:
-                    "Successfully completed comprehensive training and an online examination in HTML, demonstrating a foundational understanding of web structure and markup language concepts.",
-                logo: null,
-            },
-            {
-                title: "Financial Literacy",
-                issuer: "Infosys Springboard",
-                date: "June 2025",
-                credentialId: "003",
-                credentialUrl:
-                    "https://drive.google.com/file/d/1OiEkFYXt5I936sO0koTFMMLa8RQjxxBM/view?usp=drive_link",
-                description:
-                    "Successfully completed the comprehensive Financial Literacy course, providing a strong foundational understanding of key concepts in the subject.",
-                logo: null,
-            },
-            {
-                title: "C++ Fundamentals",
-                issuer: "Infosys Springboard",
-                date: "July 2025",
-                credentialId: "004",
-                credentialUrl:
-                    "https://drive.google.com/file/d/1jitiYFf-IYC3Ung-NaGIi6QymVGwLLH1/view?usp=drive_link",
-                description:
-                    "Gained a strong foundational understanding of the C++ programming language through the comprehensive C++ Fundamentals course.",
-                logo: null,
-            },
-            {
-                title: "2 Months Internship Program",
-                issuer: "AICTE Idealab, SAKEC",
-                date: "Aug 2025",
-                credentialId: "005",
-                credentialUrl:
-                    "https://drive.google.com/file/d/1EzZD0Lbyl0kc0BoRHdKY0zuwWBxQXtCE/view?usp=drive_link",
-                description:
-                    "Gained high-level proficiency in Internet of Things (IOT) technologies, specifically applying expertise in Arduino, ESP32, and Raspberry Pi platforms.",
-                logo: null,
-            },
-            {
-                title: "Java Training",
-                issuer: "NPTEL (IIT-B)",
-                date: "Sept 2025",
-                credentialId: "006",
-                credentialUrl:
-                    "https://drive.google.com/file/d/112q7r8OwfUYZVVhYQ7L7xac9dTiAQ6Fm/view?usp=drive_link",
-                description:
-                    "Acquired a strong foundational and application based understanding of the Java programming language.",
+                    "Grasped the core concepts of thematic analysis and sentiment analysis to transform raw customer feedback into actionable insights and generate summary reports using AI and spreadsheet applications.",
                 logo: null,
             },
             {
@@ -529,14 +474,69 @@ export class MemStorage implements IStorage {
                 logo: null,
             },
             {
-                title: "Apply AI: Analyze Customer Reviews",
-                issuer: "Cisco Networking Academy",
-                date: "Jan 2026",
-                credentialId: "008",
+                title: "Java Training",
+                issuer: "NPTEL (IIT-B)",
+                date: "Sept 2025",
+                credentialId: "006",
                 credentialUrl:
-                    "https://drive.google.com/file/d/1qp4cw9zuXfHDI4XzNbDB1cxBDmkGBHme/view?usp=drive_link",
+                    "https://drive.google.com/file/d/112q7r8OwfUYZVVhYQ7L7xac9dTiAQ6Fm/view?usp=drive_link",
                 description:
-                    "Grasped the core concepts of thematic analysis and sentiment analysis to transform raw customer feedback into actionable insights and generate summary reports using AI and spreadsheet applications.",
+                    "Acquired a strong foundational and application based understanding of the Java programming language.",
+                logo: null,
+            },
+            {
+                title: "2 Months Internship Program",
+                issuer: "AICTE Idealab, SAKEC",
+                date: "Aug 2025",
+                credentialId: "005",
+                credentialUrl:
+                    "https://drive.google.com/file/d/1EzZD0Lbyl0kc0BoRHdKY0zuwWBxQXtCE/view?usp=drive_link",
+                description:
+                    "Gained high-level proficiency in Internet of Things (IOT) technologies, specifically applying expertise in Arduino, ESP32, and Raspberry Pi platforms.",
+                logo: null,
+            },
+            {
+                title: "C++ Fundamentals",
+                issuer: "Infosys Springboard",
+                date: "July 2025",
+                credentialId: "004",
+                credentialUrl:
+                    "https://drive.google.com/file/d/1jitiYFf-IYC3Ung-NaGIi6QymVGwLLH1/view?usp=drive_link",
+                description:
+                    "Gained a strong foundational understanding of the C++ programming language through the comprehensive C++ Fundamentals course.",
+                logo: null,
+            },
+            {
+                title: "Financial Literacy",
+                issuer: "Infosys Springboard",
+                date: "June 2025",
+                credentialId: "003",
+                credentialUrl:
+                    "https://drive.google.com/file/d/1OiEkFYXt5I936sO0koTFMMLa8RQjxxBM/view?usp=drive_link",
+                description:
+                    "Successfully completed the comprehensive Financial Literacy course, providing a strong foundational understanding of key concepts in the subject.",
+                logo: null,
+            },
+            {
+                title: "HTML training",
+                issuer: "Spoken Tutorial, IIT-B",
+                date: "March 2025",
+                credentialId: "002",
+                credentialUrl:
+                    "https://drive.google.com/file/d/1KmorGzva0_VDh5L55Sss8jfAihSciwhD/view?usp=drive_link",
+                description:
+                    "Successfully completed comprehensive training and an online examination in HTML, demonstrating a foundational understanding of web structure and markup language concepts.",
+                logo: null,
+            },
+            {
+                title: "Hands On Mobile App Development using Flutter",
+                issuer: "SAKEC Robo Club",
+                date: "January 2025",
+                credentialId: "001",
+                credentialUrl:
+                    "https://drive.google.com/file/d/1aStXNLBPJ2FgAFOIVIVHIDx0kX5cUMu8/view?usp=drive_link",
+                description:
+                    "Demonstrated hands-on proficiency in dart programming language & Mobile App Development using Flutter.",
                 logo: null,
             },
         ];
