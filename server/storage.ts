@@ -127,6 +127,33 @@ export class MemStorage implements IStorage {
                 size: "medium",
             },
             {
+                title: "Cancer Survival Analysis",
+                description:
+                    "Statistical Python tool for modeling cancer patient survival",
+                fullDescription:
+                    "Cancer Survival Analysis is an educational and academically rigorous Python project for modeling cancer patient survival times using the exponential distribution. It integrates Monte Carlo simulation, hypothesis testing, bootstrap inference, and publication-quality visualizations, providing a reproducible, mathematically grounded, and type-safe platform for survival analysis and healthcare analytics.",
+                role: "Mathematical Techniques",
+                duration: "Oct - Nov `25",
+                highlights: [
+                    "Simulates patient survival times with exponential distributions and Monte Carlo methods.",
+                    "Validates model fit using Kolmogorov–Smirnov and Anderson–Darling tests.",
+                    "Generates bootstrap confidence intervals for robust statistical inference.",
+                    "Produces publication-quality survival curves, Q–Q plots, and probability heatmaps.",
+                ],
+                images: urls(
+                    "cancer-survival-analysis",
+                    "images/001.jpg",
+                    "images/002.jpg",
+                    "images/003.jpg"
+                ),
+                coverImage: null,
+                demoLink: null,
+                liveLink: gitUrl("cancer-survival-analysis"),
+                paperLink: null,
+                size: "medium",
+            },
+
+            {
                 title: "Ultrasonic Radar",
                 description:
                     "Real-Time Object Detection & Visualization System",
