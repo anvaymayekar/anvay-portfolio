@@ -174,6 +174,32 @@ export class MemStorage implements IStorage {
                 size: "medium",
             },
             {
+                title: "Text Flow",
+                description:
+                    "Python-Based Probabilistic Text Generator using 2nd-Order Markov Chains",
+                fullDescription:
+                    "TextFlow is an educational and lightweight text generation engine implemented from scratch using 2nd-order Markov Chains in pure Python. It supports incremental training, sparse state transition matrices, Laplace smoothing, and context-aware anti-repetition mechanisms, allowing for efficient, reproducible, and mathematically grounded probabilistic text generation across diverse corpora.",
+                role: "Curiosity Project",
+                duration: "Sept `25",
+                highlights: [
+                    "Generates text using 2nd-order Markov Chains with context-aware predictions.",
+                    "Sparse transition matrices with Laplace smoothing for memory-efficient probability storage.",
+                    "Incremental training with YAML and Pickle ensures resumable, crash-safe state persistence.",
+                    "Supports deterministic, stochastic, and anti-repetition sampling modes.",
+                ],
+                images: urls(
+                    "text-flow",
+                    "sample/001.jpg",
+                    "sample/002.jpg",
+                    "sample/003.jpg"
+                ),
+                coverImage: null,
+                demoLink: null,
+                liveLink: gitUrl("text-flow"),
+                paperLink: null,
+                size: "medium",
+            },
+            {
                 title: "IoT Pager - ByteBridge",
                 description: "ESP32 & Python-Based Secure MQTT Pager",
                 fullDescription:
