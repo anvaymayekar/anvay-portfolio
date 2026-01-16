@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Mail, Github, Linkedin, FileText, Code } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatedName, AnimatedTagline } from "@/components/AnimatedName";
@@ -12,11 +13,16 @@ import { useCursorGradient } from "@/hooks/use-cursor-gradient";
 import type { Project } from "@shared/schema";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ExperienceTimeline } from "@/components/ExperienceTimeline";
-import { ProjectGallery } from "@/components/ProjectGallery";
+import { ProjectGallery, ShowMoreButton } from "@/components/ProjectGallery";
+
 export default function Home() {
     const { data: projects, isLoading } = useQuery<Project[]>({
         queryKey: ["/api/projects"],
     });
+    const [hasMore, setHasMore] = useState(false);
+    const [showMoreHandler, setShowMoreHandler] = useState<(() => void) | null>(
+        null
+    );
 
     useCursorGradient();
 
@@ -223,7 +229,12 @@ export default function Home() {
                             ))}
                         </div>
                     ) : projects && projects.length > 0 ? (
-                        <ProjectGallery />
+                        <ProjectGallery
+                            onLoadMoreChange={(hasMore, handleShowMore) => {
+                                setHasMore(hasMore);
+                                setShowMoreHandler(() => handleShowMore);
+                            }}
+                        />
                     ) : (
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -235,6 +246,9 @@ export default function Home() {
                                 Projects coming soon...
                             </p>
                         </motion.div>
+                    )}
+                    {hasMore && showMoreHandler && (
+                        <ShowMoreButton onClick={showMoreHandler} />
                     )}
                 </div>
             </section>
