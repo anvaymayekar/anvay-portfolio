@@ -17,7 +17,7 @@ import { randomUUID } from "crypto";
 function urls(title: string, ...imgs: string[]): string[] {
     return imgs.map(
         (img) =>
-            `https://raw.githubusercontent.com/anvaymayekar/${title}/master/${img}`
+            `https://raw.githubusercontent.com/anvaymayekar/${title}/master/${img}`,
     );
 }
 
@@ -76,7 +76,7 @@ export class MemStorage implements IStorage {
                     "project-sira",
                     "sample/001.JPG",
                     "sample/002.JPG",
-                    "sample/003.JPG"
+                    "sample/003.JPG",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -144,7 +144,7 @@ export class MemStorage implements IStorage {
                     "cancer-survival-analysis",
                     "images/001.jpg",
                     "images/002.jpg",
-                    "images/003.jpg"
+                    "images/003.jpg",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -192,7 +192,7 @@ export class MemStorage implements IStorage {
                     "currency-converter",
                     "images/001.png",
                     "images/002.png",
-                    "images/003.png"
+                    "images/003.png",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -218,7 +218,7 @@ export class MemStorage implements IStorage {
                     "text-flow",
                     "sample/001.jpg",
                     "sample/002.jpg",
-                    "sample/003.jpg"
+                    "sample/003.jpg",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -243,7 +243,7 @@ export class MemStorage implements IStorage {
                     "iot-pager",
                     "images/002.PNG",
                     "images/004.PNG",
-                    "images/005.PNG"
+                    "images/005.PNG",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -269,7 +269,7 @@ export class MemStorage implements IStorage {
                     "project-twin",
                     "project-images/001.JPG",
                     "project-images/005.JPG",
-                    "project-images/006.JPG"
+                    "project-images/006.JPG",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -314,7 +314,7 @@ export class MemStorage implements IStorage {
                     "mega-matrix-mania",
                     "images/001.png",
                     "images/002.png",
-                    "images/003.png"
+                    "images/003.png",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -340,7 +340,7 @@ export class MemStorage implements IStorage {
                     "project-robo",
                     "images/imageRobot.JPG",
                     "images/imageUI.JPG",
-                    "images/imageUIFeatures.JPG"
+                    "images/imageUIFeatures.JPG",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -366,7 +366,7 @@ export class MemStorage implements IStorage {
                     "binary-biscuit",
                     "sample/001.JPG",
                     "sample/002.JPG",
-                    "sample/003.JPG"
+                    "sample/003.JPG",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -391,7 +391,7 @@ export class MemStorage implements IStorage {
                     "matrix-mania",
                     "sample/001.png",
                     "sample/002.png",
-                    "sample/003.png"
+                    "sample/003.png",
                 ),
                 coverImage: null,
                 demoLink: null,
@@ -414,7 +414,7 @@ export class MemStorage implements IStorage {
                 degree: "Bachelor of Technology",
                 field: "Electronics & Computer Science",
                 duration: "2024 - 2028",
-                grade: "8.91 CGPA",
+                grade: "9.0 CGPA",
                 description:
                     "Currently pursuing a B.Tech, complemented by a minor in Robotics and Drone Technology, developing hands-on expertise in autonomous systems, embedded technologies & engineering",
                 logo: null,
@@ -666,7 +666,7 @@ export class MemStorage implements IStorage {
 
     async getUserByUsername(username: string): Promise<User | undefined> {
         return Array.from(this.users.values()).find(
-            (user) => user.username === username
+            (user) => user.username === username,
         );
     }
 
