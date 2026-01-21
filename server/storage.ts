@@ -476,7 +476,7 @@ export class MemStorage implements IStorage {
                 company: "AICTE IDEALab, SAKEC",
                 location: "Mumbai, India",
                 duration: "Aug '25 – Jan `26",
-                current: "true",
+                current: "false",
                 icon: "rocket",
             },
             {
@@ -492,7 +492,7 @@ export class MemStorage implements IStorage {
                 company: "AICTE IDEALab, SAKEC",
                 location: "Mumbai, India",
                 duration: "Jan '25 – Jan `26",
-                current: "true",
+                current: "false",
                 icon: "crown",
             },
         ];
