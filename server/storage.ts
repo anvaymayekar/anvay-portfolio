@@ -448,38 +448,6 @@ export class MemStorage implements IStorage {
         // Seed Experience
         const experiencesData: Array<Omit<Experience, "id">> = [
             {
-                role: "Student Ambassador",
-                company: "AICTE IDEALab, SAKEC",
-                location: "Mumbai, India",
-                duration: "Jan '25 – Present",
-                current: "true",
-                icon: "crown",
-            },
-            {
-                role: "Projects Team Member",
-                company: "AICTE IDEALab, SAKEC",
-                location: "Mumbai, India",
-                duration: "Aug '25 – Present",
-                current: "true",
-                icon: "rocket",
-            },
-            {
-                role: "Video Editor",
-                company: "AICTE IDEALab, SAKEC",
-                location: "Mumbai, India",
-                duration: "Feb '25 – Jul '25",
-                current: "false",
-                icon: "star",
-            },
-            {
-                role: "Summer Internship",
-                company: "AICTE IDEALab under Prof. Santosh Kamble",
-                location: "Mumbai, India",
-                duration: "16 Jun – 16 Aug '25",
-                current: "false",
-                icon: "code",
-            },
-            {
                 role: "Team lead & engineer on Project SIRA",
                 company: "ECS Dept. & AICTE IDEALab, SAKEC",
                 location: "Mumbai, India",
@@ -494,6 +462,38 @@ export class MemStorage implements IStorage {
                 duration: "Oct '25",
                 current: "false",
                 icon: "trophy",
+            },
+            {
+                role: "Summer Internship",
+                company: "AICTE IDEALab under Prof. Santosh Kamble",
+                location: "Mumbai, India",
+                duration: "16 Jun – 16 Aug '25",
+                current: "false",
+                icon: "code",
+            },
+            {
+                role: "Projects Team Member",
+                company: "AICTE IDEALab, SAKEC",
+                location: "Mumbai, India",
+                duration: "Aug '25 – Jan `26",
+                current: "true",
+                icon: "rocket",
+            },
+            {
+                role: "Video Editor",
+                company: "AICTE IDEALab, SAKEC",
+                location: "Mumbai, India",
+                duration: "Feb '25 – Jul '25",
+                current: "false",
+                icon: "star",
+            },
+            {
+                role: "Student Ambassador",
+                company: "AICTE IDEALab, SAKEC",
+                location: "Mumbai, India",
+                duration: "Jan '25 – Jan `26",
+                current: "true",
+                icon: "crown",
             },
         ];
 
