@@ -448,20 +448,20 @@ export class MemStorage implements IStorage {
         // Seed Experience
         const experiencesData: Array<Omit<Experience, "id">> = [
             {
-                role: "Team lead & engineer on Project SIRA",
+                role: "Team Member",
+                company: "ISRO Robotic Challenge - URSC 2026",
+                location: "Mumbai, India",
+                duration: "Jan '26 – Present",
+                current: "true",
+                icon: "rocket",
+            },
+            {
+                role: "Team Lead & Engineer on Project SIRA",
                 company: "ECS Dept. & AICTE IDEALab, SAKEC",
                 location: "Mumbai, India",
                 duration: "Aug '25 – Present",
                 current: "true",
                 icon: "flame",
-            },
-            {
-                role: "Team Lead – Smart India Hackathon",
-                company: "SIH Internal Hackathon",
-                location: "Mumbai, India",
-                duration: "Oct '25",
-                current: "false",
-                icon: "trophy",
             },
             {
                 role: "Summer Internship",
@@ -477,7 +477,7 @@ export class MemStorage implements IStorage {
                 location: "Mumbai, India",
                 duration: "Aug '25 – Jan `26",
                 current: "false",
-                icon: "rocket",
+                icon: "zap",
             },
             {
                 role: "Video Editor",
@@ -491,7 +491,7 @@ export class MemStorage implements IStorage {
                 role: "Student Ambassador",
                 company: "AICTE IDEALab, SAKEC",
                 location: "Mumbai, India",
-                duration: "Jan '25 – Jan `26",
+                duration: "Jan '25 – Jan '26",
                 current: "false",
                 icon: "crown",
             },

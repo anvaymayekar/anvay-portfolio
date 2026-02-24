@@ -21,7 +21,7 @@ export default function Home() {
     });
     const [hasMore, setHasMore] = useState(false);
     const [showMoreHandler, setShowMoreHandler] = useState<(() => void) | null>(
-        null
+        null,
     );
 
     useCursorGradient();
@@ -119,7 +119,7 @@ export default function Home() {
                             data-testid="button-resume"
                         >
                             <a
-                                href="/"
+                                href="/anvay_resume.pdf"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
