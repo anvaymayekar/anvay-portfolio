@@ -84,7 +84,27 @@ export class MemStorage implements IStorage {
                 paperLink: null,
                 size: "medium",
             },
-
+            {
+                title: "ASCII Cam",
+                description:
+                    "Real-Time ASCII Art Renderer from Live Camera Feed",
+                fullDescription:
+                    "A real-time webcam renderer that converts live camera output into colored ASCII art directly in the terminal, built in C++17 with OpenCV. Features true 24-bit ANSI color per character, auto terminal size detection, and a Matrix rain mode where falling drops are brightness-mapped to the live camera feed. Built from scratch on Windows with MSYS2/MinGW and OpenCV compiled from source.",
+                role: "Curiosity Project",
+                duration: "Mar '26",
+                highlights: [
+                    "Live webcam feed rendered as true-color ASCII art using 24-bit ANSI escape sequences.",
+                    "Matrix rain mode with per-column drop state, trail aging, and camera brightness shaping rain intensity.",
+                    "Auto terminal sizing — frame adapts instantly on window resize.",
+                    "FPS-capped render loop using std::chrono::steady_clock to prevent CPU burn.",
+                ],
+                images: urls("ascii-cam", "assets/demo.gif"),
+                coverImage: null,
+                demoLink: null,
+                liveLink: gitUrl("ascii-cam"),
+                paperLink: null,
+                size: "medium",
+            },
             {
                 title: "AVL Tree Visualizer",
                 description:
