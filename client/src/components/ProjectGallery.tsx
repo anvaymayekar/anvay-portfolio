@@ -32,7 +32,7 @@ interface ProjectGalleryProps {
 
 export function ProjectGallery({ onLoadMoreChange }: ProjectGalleryProps) {
     const [selectedProject, setSelectedProject] = useState<Project | null>(
-        null
+        null,
     );
     const [modalOpen, setModalOpen] = useState(false);
     const [visibleCount, setVisibleCount] = useState(9);
@@ -90,8 +90,8 @@ export function ProjectGallery({ onLoadMoreChange }: ProjectGalleryProps) {
         <>
             <Masonry
                 breakpointCols={breakpointColumns}
-                className="flex -ml-6 w-auto"
-                columnClassName="pl-6 bg-clip-padding"
+                className="flex -ml-8 w-auto"
+                columnClassName="pl-8 bg-clip-padding"
                 data-testid="masonry-gallery"
             >
                 {visibleProjects.map((project, index) => (
@@ -102,7 +102,7 @@ export function ProjectGallery({ onLoadMoreChange }: ProjectGalleryProps) {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-50px" }}
-                        className="mb-6"
+                        className="mb-8"
                     >
                         <ProjectCard
                             project={project}

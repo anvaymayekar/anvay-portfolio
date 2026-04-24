@@ -271,32 +271,32 @@ export class MemStorage implements IStorage {
                 paperLink: null,
                 size: "medium",
             },
-            {
-                title: "Project Twin",
-                description:
-                    "ESP32 TX/RX IoT System with OLED and ThingSpeak Integration",
-                fullDescription:
-                    "ProjectTwin developed under 2 months summer intersnhip workshop is a dual-node ESP32-based IoT system that utilizes ThingSpeak for cloud-mediated data exchange. The transmitter node generates and uploads five formatted float values at fixed intervals, while the receiver node polls the channel, parses the data, and displays it on a 128x64 I²C OLED along with buzzer and serial feedback.",
-                role: "AICTE Idealab, SAKEC",
-                duration: "Jun `25",
-                highlights: [
-                    "Dual-node ESP32 IoT system with cloud-based data exchange using ThingSpeak.",
-                    "Periodic transmission and retrieval of five formatted values with rate-limit compliance.",
-                    "Real-time data display on Serial Monitor and 128×64 OLED with status indicators.",
-                    "Integrated WiFi status LED and buzzer feedback for successful data reception.",
-                ],
-                images: urls(
-                    "project-twin",
-                    "project-images/001.JPG",
-                    "project-images/005.JPG",
-                    "project-images/006.JPG",
-                ),
-                coverImage: null,
-                demoLink: null,
-                liveLink: gitUrl("project-twin"),
-                paperLink: null,
-                size: "medium",
-            },
+            // {
+            //     title: "Project Twin",
+            //     description:
+            //         "ESP32 TX/RX IoT System with OLED and ThingSpeak Integration",
+            //     fullDescription:
+            //         "ProjectTwin developed under 2 months summer intersnhip workshop is a dual-node ESP32-based IoT system that utilizes ThingSpeak for cloud-mediated data exchange. The transmitter node generates and uploads five formatted float values at fixed intervals, while the receiver node polls the channel, parses the data, and displays it on a 128x64 I²C OLED along with buzzer and serial feedback.",
+            //     role: "AICTE Idealab, SAKEC",
+            //     duration: "Jun `25",
+            //     highlights: [
+            //         "Dual-node ESP32 IoT system with cloud-based data exchange using ThingSpeak.",
+            //         "Periodic transmission and retrieval of five formatted values with rate-limit compliance.",
+            //         "Real-time data display on Serial Monitor and 128×64 OLED with status indicators.",
+            //         "Integrated WiFi status LED and buzzer feedback for successful data reception.",
+            //     ],
+            //     images: urls(
+            //         "project-twin",
+            //         "project-images/001.JPG",
+            //         "project-images/005.JPG",
+            //         "project-images/006.JPG",
+            //     ),
+            //     coverImage: null,
+            //     demoLink: null,
+            //     liveLink: gitUrl("project-twin"),
+            //     paperLink: null,
+            //     size: "medium",
+            // },
             {
                 title: "Space Invaders",
                 description: "Pygame based Object-Oriented Game",

@@ -1,8 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import { Clock } from "lucide-react";
+import { motion } from "framer-motion";
 import type { Project } from "@shared/schema";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface ProjectCardProps {
     project: Project;
@@ -16,32 +14,21 @@ interface OngoingBadgeProps {
 export function OngoingBadge({ className = "" }: OngoingBadgeProps) {
     return (
         <div
-            className={`
-                inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium
-                education-icon-badge education-badge-text
-                
-                ${className}
-            `}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[9px] font-bold tracking-[0.18em] uppercase education-badge-text ${className}`}
             style={{
-                animation: "gentlePulse 4s ease-in-out infinite",
+                background: "rgba(139,92,246,0.08)",
+                border: "1px solid rgba(139,92,246,0.25)",
+                borderRadius: "2px",
             }}
         >
-            <Clock className="w-3 h-3" />
-            <span>Ongoing</span>
-
-            <style>{`
-                @keyframes gentlePulse {
-                    0%,
-                    100% {
-                        opacity: 1;
-                        box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.2);
-                    }
-                    50% {
-                        opacity: 0.7;
-                        box-shadow: 0 0 20px 2px rgba(168, 85, 247, 0.1);
-                    }
-                }
-            `}</style>
+            <span
+                className="w-1 h-1 rounded-full bg-violet-400"
+                style={{
+                    animation:
+                        "innerPulse 2.2s cubic-bezier(0.4,0,0.6,1) infinite",
+                }}
+            />
+            Ongoing
         </div>
     );
 }
@@ -49,21 +36,68 @@ export function OngoingBadge({ className = "" }: OngoingBadgeProps) {
 export function ProjectCard({ project, onClick }: ProjectCardProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+    const [ambientColor, setAmbientColor] = useState<string | null>(null);
+    // Track whether we're in dark mode so ambient glow is suppressed in light mode
+    const [isDark, setIsDark] = useState(() =>
+        document.documentElement.classList.contains("dark"),
+    );
+    const imgRef = useRef<HTMLImageElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+
     const images = project.images || [];
     const displayImages = images.slice(0, 3);
-
-    // Parse duration to check if ongoing
     const isOngoing =
         project.duration?.toLowerCase().includes("present") || false;
 
-    // Shuffle on hover only
+    // Keep isDark in sync if the user toggles theme mid-session
+    useEffect(() => {
+        const root = document.documentElement;
+        const observer = new MutationObserver(() => {
+            setIsDark(root.classList.contains("dark"));
+        });
+        observer.observe(root, {
+            attributes: true,
+            attributeFilter: ["class"],
+        });
+        return () => observer.disconnect();
+    }, []);
+
+    const extractAmbient = () => {
+        const img = imgRef.current;
+        const canvas = canvasRef.current;
+        if (!img || !canvas || !img.complete) return;
+        try {
+            const ctx = canvas.getContext("2d");
+            if (!ctx) return;
+            canvas.width = 16;
+            canvas.height = 16;
+            ctx.drawImage(img, 0, 0, 16, 16);
+            const data = ctx.getImageData(0, 0, 16, 16).data;
+            let r = 0,
+                g = 0,
+                b = 0,
+                count = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                r += data[i];
+                g += data[i + 1];
+                b += data[i + 2];
+                count++;
+            }
+            if (count > 0) {
+                setAmbientColor(
+                    `${Math.round(r / count)},${Math.round(g / count)},${Math.round(b / count)}`,
+                );
+            }
+        } catch {
+            // cross-origin — silently fall back
+        }
+    };
+
     useEffect(() => {
         if (displayImages.length <= 1 || !isHovered) return;
-
         const interval = setInterval(() => {
             setCurrentImageIndex((prev) => (prev + 1) % displayImages.length);
-        }, 2000);
-
+        }, 3000);
         return () => clearInterval(interval);
     }, [displayImages.length, isHovered]);
 
@@ -71,131 +105,216 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.05 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{
-                duration: 0.5,
-                scale: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
-            }}
+            viewport={{ once: true, margin: "-60px" }}
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="group cursor-pointer w-full relative"
+            data-testid={`card-project-${project.id}`}
+            onClick={onClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => {
                 setIsHovered(false);
                 setCurrentImageIndex(0);
             }}
-            data-testid={`card-project-${project.id}`}
-            className="group cursor-pointer w-full"
-            onClick={onClick}
         >
-            <div className="relative w-full scale-[0.95] origin-top">
-                {/* Stacked Images Container */}
-                <div className="relative w-full aspect-[4/3] mb-0">
+            <canvas ref={canvasRef} className="hidden" aria-hidden="true" />
+
+            <div
+                className="relative rounded-xl overflow-hidden"
+                style={{
+                    background:
+                        "linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+                    border: isHovered
+                        ? `1px solid rgba(${ambientColor ?? "139,92,246"}, 0.22)`
+                        : "1px solid rgba(255,255,255,0.08)",
+                    backdropFilter: "blur(20px)",
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+                    transition: "border-color 0.6s ease",
+                }}
+            >
+                {/*
+                    Ambient glow — dark mode only.
+                    In light mode isDark is false so opacity stays 0,
+                    meaning the blurred image layer never shows at all.
+                    Dark mode behaviour is completely unchanged.
+                */}
+                {displayImages.length > 0 && (
+                    <div
+                        className="absolute left-0 right-0 top-0 pointer-events-none z-0"
+                        style={{
+                            aspectRatio: "4/3",
+                            opacity: isDark && isHovered ? 1 : 0,
+                            transition: "opacity 0.8s ease",
+                        }}
+                    >
+                        <img
+                            src={displayImages[currentImageIndex]}
+                            alt=""
+                            aria-hidden="true"
+                            className="w-full h-full object-cover"
+                            style={{
+                                transform: "scale(1.1)",
+                                filter: "blur(30px) saturate(1.1) brightness(0.3)",
+                            }}
+                        />
+                        <div
+                            className="absolute inset-0"
+                            style={{
+                                background:
+                                    "radial-gradient(ellipse at 50% 40%, transparent 15%, rgba(8,6,20,0.88) 72%)",
+                            }}
+                        />
+                    </div>
+                )}
+
+                {/* Image zone */}
+                <div
+                    className="relative w-full overflow-hidden z-10"
+                    style={{ aspectRatio: "4/3" }}
+                >
                     {displayImages.length > 0 ? (
-                        <AnimatePresence mode="popLayout">
-                            {displayImages.map((image, index) => {
-                                const position =
-                                    (index -
-                                        currentImageIndex +
-                                        displayImages.length) %
-                                    displayImages.length;
-                                const isTop = position === 0;
-                                const isSecond = position === 1;
-                                const isThird = position === 2;
-
-                                return (
-                                    <motion.div
-                                        key={`${image}-${index}`}
-                                        className="absolute inset-0 rounded-t-xl overflow-hidden border border-white/20 dark:border-white/10 shadow-xl"
-                                        initial={{
-                                            scale: 0.9,
-                                            y: 40,
-                                            x: 40,
-                                            rotate: 8,
-                                            opacity: 0,
-                                            zIndex: 0,
-                                        }}
-                                        animate={{
-                                            scale: isTop
-                                                ? 1
-                                                : isSecond
-                                                ? 0.95
-                                                : 0.9,
-                                            y: isTop ? 0 : isSecond ? 12 : 24,
-                                            x: isTop ? 0 : isSecond ? 12 : 24,
-                                            rotate: isTop
-                                                ? 0
-                                                : isSecond
-                                                ? 3
-                                                : 6,
-                                            opacity: isTop
-                                                ? 1
-                                                : isSecond
-                                                ? 0.7
-                                                : 0.4,
-                                            zIndex: isTop
-                                                ? 3
-                                                : isSecond
-                                                ? 2
-                                                : 1,
-                                        }}
-                                        exit={{
-                                            scale: 0.85,
-                                            y: -40,
-                                            x: -40,
-                                            rotate: -8,
-                                            opacity: 0,
-                                            zIndex: 0,
-                                        }}
-                                        transition={{
-                                            duration: 1.2,
-                                            ease: [0.22, 1, 0.36, 1],
-                                        }}
-                                        data-testid={`img-stack-${index}-${project.id}`}
-                                    >
-                                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-cyan-500/5 z-10" />
-
-                                        <img
-                                            src={image}
-                                            alt={`${project.title} - ${
-                                                index + 1
-                                            }`}
-                                            className="w-full h-full object-cover"
-                                            loading="lazy"
-                                        />
-                                    </motion.div>
-                                );
-                            })}
-                        </AnimatePresence>
+                        displayImages.map((image, index) => {
+                            const isActive = index === currentImageIndex;
+                            return (
+                                <img
+                                    ref={isActive ? imgRef : undefined}
+                                    key={image}
+                                    src={image}
+                                    alt={
+                                        isActive
+                                            ? `${project.title} preview`
+                                            : ""
+                                    }
+                                    className="absolute inset-0 w-full h-full object-cover"
+                                    loading="lazy"
+                                    crossOrigin="anonymous"
+                                    onLoad={
+                                        isActive ? extractAmbient : undefined
+                                    }
+                                    style={{
+                                        zIndex: isActive ? 2 : 1,
+                                        opacity: isActive ? 1 : 0,
+                                        transform: isHovered
+                                            ? "scale(1.04)"
+                                            : "scale(1)",
+                                        transition:
+                                            "opacity 800ms ease-in-out, transform 500ms ease-out",
+                                    }}
+                                    data-testid={`img-stack-${index}-${project.id}`}
+                                />
+                            );
+                        })
                     ) : (
                         <div
-                            className="absolute inset-0 rounded-t-xl border border-white/20 dark:border-white/10 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-cyan-500/10"
+                            className="absolute inset-0 education-gradient-main opacity-25"
                             data-testid={`placeholder-image-${project.id}`}
                         />
                     )}
-                </div>
-                {/* Info Box - Positioned to overlap images */}
-                <div className="relative glass rounded-b-xl p-4 -mt-px z-10">
-                    <div className="flex items-start justify-between gap-2">
+
+                    {/* Scrim */}
+                    <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                            zIndex: 3,
+                            background:
+                                "linear-gradient(to top, rgba(8,6,20,0.95) 0%, rgba(8,6,20,0.3) 45%, transparent 72%)",
+                        }}
+                    />
+
+                    {/* Image dots */}
+                    {displayImages.length > 1 && (
+                        <div
+                            className="absolute top-3 right-3 flex gap-1"
+                            style={{ zIndex: 4 }}
+                        >
+                            {displayImages.map((_, i) => (
+                                <motion.span
+                                    key={i}
+                                    className="block rounded-full"
+                                    animate={{
+                                        width: i === currentImageIndex ? 16 : 5,
+                                        background:
+                                            i === currentImageIndex
+                                                ? "rgba(167,139,250,1)"
+                                                : "rgba(255,255,255,0.25)",
+                                    }}
+                                    style={{ height: 5 }}
+                                    transition={{
+                                        duration: 0.35,
+                                        ease: "easeOut",
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Title + badge */}
+                    <div
+                        className="absolute bottom-0 left-0 right-0 px-4 pb-4"
+                        style={{ zIndex: 4 }}
+                    >
+                        {isOngoing && <OngoingBadge className="mb-2" />}
                         <h3
-                            className="text-base md:text-lg font-bold text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-cyan-600 dark:group-hover:from-purple-400 dark:group-hover:to-cyan-400 transition-all duration-300 line-clamp-2"
+                            className="text-white font-bold text-[15px] leading-snug line-clamp-2"
+                            style={{ textShadow: "0 1px 10px rgba(0,0,0,0.5)" }}
                             data-testid={`text-project-title-${project.id}`}
                         >
                             {project.title}
                         </h3>
-
-                        {isOngoing && <OngoingBadge />}
                     </div>
-                    <h2 className="text-xs md:text-sm opacity-65 mt-1 line-clamp-1">
-                        {project.description}
-                    </h2>
+                </div>
 
-                    {project.duration && (
-                        <p
-                            className="text-xs md:text-sm text-muted-foreground mt-6"
-                            data-testid={`text-project-duration-${project.id}`}
+                {/* Footer */}
+                <div className="relative px-4 pt-3 pb-4 z-10">
+                    <p
+                        className="text-[12px] leading-relaxed overflow-hidden whitespace-nowrap text-ellipsis"
+                        style={
+                            isHovered
+                                ? {
+                                      background:
+                                          "linear-gradient(90deg, #a855f7, #818cf8, #06b6d4)",
+                                      WebkitBackgroundClip: "text",
+                                      WebkitTextFillColor: "transparent",
+                                      backgroundClip: "text",
+                                      transition: "all 0.4s ease",
+                                  }
+                                : {
+                                      color: "var(--muted-foreground)",
+                                      WebkitTextFillColor: "unset",
+                                      transition: "all 0.4s ease",
+                                  }
+                        }
+                    >
+                        {project.description}
+                    </p>
+
+                    <div
+                        className="relative mt-3 pt-3 flex items-center justify-between"
+                        style={{
+                            borderTop: "1px solid rgba(255,255,255,0.06)",
+                        }}
+                    >
+                        {project.duration && (
+                            <p
+                                className="text-[10px] font-semibold tracking-wide education-badge-text opacity-70"
+                                data-testid={`text-project-duration-${project.id}`}
+                            >
+                                {project.duration}
+                            </p>
+                        )}
+
+                        <motion.span
+                            className="text-[10px] font-bold tracking-widest education-badge-text"
+                            animate={
+                                isHovered
+                                    ? { opacity: 1, x: 0 }
+                                    : { opacity: 0, x: -6 }
+                            }
+                            transition={{ duration: 0.25, ease: "easeOut" }}
                         >
-                            {project.duration}
-                        </p>
-                    )}
+                            VIEW →
+                        </motion.span>
+                    </div>
                 </div>
             </div>
         </motion.div>
