@@ -498,7 +498,7 @@ export class MemStorage implements IStorage {
                 company: "ISRO Robotic Challenge - URSC 2026",
                 location: "Mumbai, India",
                 duration: "Jan '26 – June '26",
-                current: "true",
+                current: "false",
                 icon: "rocket",
             },
             {
@@ -506,7 +506,7 @@ export class MemStorage implements IStorage {
                 company: "ECS Dept. & AICTE IDEALab, SAKEC",
                 location: "Mumbai, India",
                 duration: "Aug '25 – Aug '26",
-                current: "true",
+                current: "false",
                 icon: "flame",
             },
             {
