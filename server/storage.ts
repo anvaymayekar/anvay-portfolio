@@ -59,6 +59,32 @@ export class MemStorage implements IStorage {
         // Seed Projects with rich data - REMOVED techStack
         const sampleProjects: Array<Omit<Project, "id">> = [
             {
+                title: ".mr: Marathi, Understood by Machines",
+                description:
+                    "A Marathi Programming Language Compiled to Native Machine Code",
+                fullDescription:
+                    "A Marathi programming language built from scratch in C++20. The compiler takes Marathi-inspired source code through lexing, parsing, AST construction, semantic analysis, and native x86-64 assembly generation. The language features Marathi syntax for variables, types, control flow, functions, operators, and program flow, with support for both scalar and collection-oriented declarations.",
+                role: "Curiosity Project",
+                duration: "July '26 - Aug '26",
+                highlights: [
+                    "Custom lexer, parser, AST, semantic analysis, and native code generation pipeline.",
+                    "Marathi-inspired syntax covering types, variables, control flow, functions, operators, and program termination.",
+                    "Generates native x86-64 assembly without an interpreter or bytecode virtual machine.",
+                    "Built from scratch in modern C++20 with a growing test suite for lexing, parsing, semantics, and code generation.",
+                ],
+                images: urls(
+                    "custom-compiler",
+                    "docs/1.png",
+                    "docs/2.png",
+                    "docs/3.png",
+                ),
+                coverImage: null,
+                demoLink: null,
+                liveLink: gitUrl("custom-compiler"),
+                paperLink: null,
+                size: "medium",
+            },
+            {
                 title: "Project SIRA",
                 description:
                     "Spider-Inspired Robotic Architecture - The Hexapod",
@@ -81,32 +107,6 @@ export class MemStorage implements IStorage {
                 coverImage: null,
                 demoLink: null,
                 liveLink: gitUrl("project-sira"),
-                paperLink: null,
-                size: "medium",
-            },
-            {
-                title: ".mr: Marathi, Understood by Machines",
-                description:
-                    "A Marathi Programming Language Compiled to Native Machine Code",
-                fullDescription:
-                    "A Marathi programming language built from scratch in C++20. The compiler takes Marathi-inspired source code through lexing, parsing, AST construction, semantic analysis, and native x86-64 assembly generation. The language features Marathi syntax for variables, types, control flow, functions, operators, and program flow, with support for both scalar and collection-oriented declarations.",
-                role: "Language & Compiler Project",
-                duration: "July '26 - Aug '26",
-                highlights: [
-                    "Custom lexer, parser, AST, semantic analysis, and native code generation pipeline.",
-                    "Marathi-inspired syntax covering types, variables, control flow, functions, operators, and program termination.",
-                    "Generates native x86-64 assembly without an interpreter or bytecode virtual machine.",
-                    "Built from scratch in modern C++20 with a growing test suite for lexing, parsing, semantics, and code generation.",
-                ],
-                images: urls(
-                    "custom-compiler",
-                    "docs/1.png",
-                    "docs/2.png",
-                    "docs/3.png",
-                ),
-                coverImage: null,
-                demoLink: null,
-                liveLink: gitUrl("custom-compiler"),
                 paperLink: null,
                 size: "medium",
             },
