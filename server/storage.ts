@@ -79,7 +79,7 @@ export class MemStorage implements IStorage {
                     "docs/3.png",
                 ),
                 coverImage: null,
-                demoLink: null,
+                demoLink: "https://mrplayground.vercel.app/",
                 liveLink: gitUrl("custom-compiler"),
                 paperLink: null,
                 size: "medium",
